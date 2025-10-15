@@ -3,6 +3,7 @@ package org.javaguru.travel.insurance.core;
 import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -32,7 +33,8 @@ class TravelCalculatePremiumServiceImplTest {
     }
 
     @Test
-    public void calculatePremiumValidRequest() {
+    @DisplayName("should return first name when valid request")
+    public void shouldReturnFirstNameWhenValidRequest() {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
         TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
@@ -40,9 +42,41 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
         assertEquals("Sergey", response.getPersonFirstName());
-        assertEquals("Makarov", response.getPersonLastName());
-        assertEquals(response.getAgreementDateFrom(), dateFrom);
-        assertEquals(response.getAgreementDateTo(), dateTo);
     }
 
+    @Test
+    @DisplayName("should return last name when valid request")
+    public void shouldReturnLastNameWhenValidRequest() {
+        Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
+        Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
+
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+
+        assertEquals("Makarov", response.getPersonLastName());
+    }
+
+    @Test
+    @DisplayName("should return agreement date from when valid request")
+    public void shouldReturnAgreementDateFromWhenValidRequest() {
+        Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
+        Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
+
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+
+        assertEquals(response.getAgreementDateFrom(), dateFrom);
+    }
+
+    @Test
+    @DisplayName("should return agreement date to when valid request")
+    public void shouldReturnAgreementDateToWhenValidRequest() {
+        Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
+        Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
+
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+
+        assertEquals(response.getAgreementDateTo(), dateTo);
+    }
 }
