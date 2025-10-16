@@ -160,7 +160,6 @@ public class TravelCalculatePremiumServiceImplAITest {
         TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
         request.setAgreementDateFrom(from);
         request.setAgreementDateTo(to);
-        TravelCalculatePremiumResponse response = service.calculatePremium(request);
-        assertEquals("-5", response.getAgreementPrice().toPlainString());
+        assertThrows(IllegalArgumentException.class, () -> service.calculatePremium(request));
     }
 }

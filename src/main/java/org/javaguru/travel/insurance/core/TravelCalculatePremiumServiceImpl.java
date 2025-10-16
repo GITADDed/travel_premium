@@ -20,9 +20,11 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
             throw new IllegalArgumentException("Agreement dates must not be null");
         }
 
-        LocalDate from = convertToLocalDate(request.getAgreementDateFrom());
-        LocalDate to = convertToLocalDate(request.getAgreementDateTo());
-        BigDecimal price = calculateDaysBetween(from, to);
+
+        BigDecimal price = calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
+        if (price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Agreement date to must be after agreement date from");
+        }
         return new TravelCalculatePremiumResponse(request.getPersonFirstName(), request.getPersonLastName(), request.getAgreementDateFrom(), request.getAgreementDateTo(), price);
     }
 
@@ -31,7 +33,9 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
                 ZoneId.systemDefault());
     }
 
-    private BigDecimal calculateDaysBetween(LocalDate from, LocalDate to) {
+    private BigDecimal calculateDaysBetween(Date fromD, Date toD) {
+        LocalDate from = convertToLocalDate(fromD);
+        LocalDate to = convertToLocalDate(toD);
         return BigDecimal.valueOf(ChronoUnit.DAYS.between(from, to));
     }
 
