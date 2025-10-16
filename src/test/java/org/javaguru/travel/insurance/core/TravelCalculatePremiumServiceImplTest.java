@@ -20,13 +20,13 @@ class TravelCalculatePremiumServiceImplTest {
     private final String timeFromStr = "2025-10-16T00:00:00";
     private final String timeToStr = "2025-10-20T00:00:00";
     private final ZoneId zoneId = ZoneId.systemDefault();
-    private final BigDecimal differenceInDays = BigDecimal.valueOf(4);
 
     private DateTimeService dateTimeService;
 
     @BeforeEach
     public void setUp() {
         dateTimeService = Mockito.mock(DateTimeService.class);
+        Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
         service = new TravelCalculatePremiumServiceImpl(dateTimeService);
     }
 

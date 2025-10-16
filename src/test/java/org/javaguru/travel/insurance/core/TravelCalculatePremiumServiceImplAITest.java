@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +20,7 @@ public class TravelCalculatePremiumServiceImplAITest {
     @BeforeEach
     void setUp() {
         dateTimeService = Mockito.mock(DateTimeService.class);
+        Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
         service = new TravelCalculatePremiumServiceImpl(dateTimeService);
     }
 
