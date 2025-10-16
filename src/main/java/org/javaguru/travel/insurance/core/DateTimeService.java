@@ -1,11 +1,14 @@
 package org.javaguru.travel.insurance.core;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+@Component
 public class DateTimeService {
     private LocalDate convertToLocalDate(Date dateToConvert) {
         return LocalDate.ofInstant(dateToConvert.toInstant(),

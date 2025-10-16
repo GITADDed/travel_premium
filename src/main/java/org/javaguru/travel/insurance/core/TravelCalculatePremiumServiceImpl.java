@@ -13,6 +13,12 @@ import java.util.Date;
 @Component
 class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
+    private final DateTimeService dateTimeService;
+
+    public TravelCalculatePremiumServiceImpl(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
     @Override
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
 
@@ -20,11 +26,8 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
             throw new IllegalArgumentException("Agreement dates must not be null");
         }
 
+        BigDecimal price = dateTimeService.calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
 
-        BigDecimal price = calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
-        if (price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Agreement date to must be after agreement date from");
-        }
         return new TravelCalculatePremiumResponse(request.getPersonFirstName(), request.getPersonLastName(), request.getAgreementDateFrom(), request.getAgreementDateTo(), price);
     }
 

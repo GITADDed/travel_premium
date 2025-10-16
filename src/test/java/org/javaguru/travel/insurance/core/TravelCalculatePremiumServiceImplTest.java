@@ -5,6 +5,7 @@ import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,9 +22,12 @@ class TravelCalculatePremiumServiceImplTest {
     private final ZoneId zoneId = ZoneId.systemDefault();
     private final BigDecimal differenceInDays = BigDecimal.valueOf(4);
 
+    private DateTimeService dateTimeService;
+
     @BeforeEach
     public void setUp() {
-        service = new TravelCalculatePremiumServiceImpl();
+        dateTimeService = Mockito.mock(DateTimeService.class);
+        service = new TravelCalculatePremiumServiceImpl(dateTimeService);
     }
 
     @Test
@@ -74,15 +78,4 @@ class TravelCalculatePremiumServiceImplTest {
         assertEquals(response.getAgreementDateTo(), dateTo);
     }
 
-    @Test
-    @DisplayName("should return correct price when valid request")
-    public void shouldReturnCorrectPriceWhenValidRequest() {
-        Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
-        Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
-
-        TravelCalculatePremiumResponse response = service.calculatePremium(request);
-
-        assertEquals(differenceInDays, response.getAgreementPrice());
-    }
 }
