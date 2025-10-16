@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -15,19 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TravelCalculatePremiumServiceImplTest {
 
     private TravelCalculatePremiumServiceImpl service;
-    private String timeFromStr = "2025-10-16T00:00:00";
-    private String timeToStr = "2025-10-20T00:00:00";
-    private ZoneId zoneId = ZoneId.systemDefault();
+    private final String timeFromStr = "2025-10-16T00:00:00";
+    private final String timeToStr = "2025-10-20T00:00:00";
+    private final ZoneId zoneId = ZoneId.systemDefault();
+    private final BigDecimal differenceInDays = BigDecimal.valueOf(4);
 
     @BeforeEach
     public void setUp() {
         service = new TravelCalculatePremiumServiceImpl();
-    }
-
-
-    @Test
-    public void deleteMe() {
-
     }
 
     @Test
@@ -76,5 +72,17 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
         assertEquals(response.getAgreementDateTo(), dateTo);
+    }
+
+    @Test
+    @DisplayName("should return correct price when valid request")
+    public void shouldReturnCorrectPriceWhenValidRequest() {
+        Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
+        Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
+
+        TravelCalculatePremiumResponse response = service.calculatePremium(request);
+
+        assertEquals(differenceInDays, response.getAgreementPrice());
     }
 }
