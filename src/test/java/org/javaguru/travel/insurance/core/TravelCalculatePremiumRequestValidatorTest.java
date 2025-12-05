@@ -213,5 +213,44 @@ public class TravelCalculatePremiumRequestValidatorTest {
         assertEquals("Must not be empty!", errors.get(2).getMessage());
     }
 
+    @Test
+    @DisplayName("should return list of errors with correct names and incorrect agreementDateFrom")
+    public void testValidateWithFirstAndLastNameAndAgreementDateFromAndNullAgreementDateTo() {
+        Date from = new Date(1700000000000L);
+        Date to = null;
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
+        request.setPersonFirstName("Ivan");
+        request.setPersonLastName("Ivanov");
+        request.setAgreementDateFrom(from);
+        request.setAgreementDateTo(to);
+        List<ValidationError> errors = validator.validate(request);
+
+        assertEquals(1, errors.size());
+        assertEquals("agreementDateTo", errors.getFirst().getField());
+        assertEquals("Must not be empty!", errors.getFirst().getMessage());
+    }
+
+    @Test
+    @DisplayName("should return list of errors with null last and first name in request")
+    public void testValidateWithNullFirstAndLastNameAndAgreementDateFromAndAgreementDateTo() {
+        Date from = null;
+        Date to = null;
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
+        request.setPersonFirstName(null);
+        request.setPersonLastName(null);
+        request.setAgreementDateFrom(from);
+        request.setAgreementDateTo(to);
+        List<ValidationError> errors = validator.validate(request);
+
+        assertEquals(4, errors.size());
+        assertEquals("personFirstName", errors.get(0).getField());
+        assertEquals("personLastName", errors.get(1).getField());
+        assertEquals("agreementDateFrom", errors.get(2).getField());
+        assertEquals("agreementDateTo", errors.get(3).getField());
+        assertEquals("Must not be empty!", errors.get(0).getMessage());
+        assertEquals("Must not be empty!", errors.get(1).getMessage());
+        assertEquals("Must not be empty!", errors.get(2).getMessage());
+        assertEquals("Must not be empty!", errors.get(3).getMessage());
+    }
 
 }
