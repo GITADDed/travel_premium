@@ -47,13 +47,13 @@ public class TravelCalculatePremiumRequestValidatorTest {
     }
 
     @Test
-    @DisplayName("should return list of errors with empty last name in request")
-    public void testValidateWithEmptyLastName() {
+    @DisplayName("should return list of errors with empty first name in request")
+    public void testValidateWithEmptyFirstName() {
         Date from = new Date(1700000000000L);
         Date to = new Date(1700003600000L);
         TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("");
+        request.setPersonFirstName("");
+        request.setPersonLastName("Ivanov");
         request.setAgreementDateFrom(from);
         request.setAgreementDateTo(to);
         List<ValidationError> errors = validator.validate(request);
