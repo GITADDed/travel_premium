@@ -1,7 +1,7 @@
 package org.javaguru.travel.insurance.core;
 
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +11,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class TravelCalculatePremiumServiceImplTest {
 
@@ -22,12 +24,15 @@ class TravelCalculatePremiumServiceImplTest {
     private final ZoneId zoneId = ZoneId.systemDefault();
 
     private DateTimeService dateTimeService;
+    private TravelCalculatePremiumRequestValidator requestValidator;
 
     @BeforeEach
     public void setUp() {
         dateTimeService = Mockito.mock(DateTimeService.class);
+        requestValidator = Mockito.mock(TravelCalculatePremiumRequestValidator.class);
         Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
-        service = new TravelCalculatePremiumServiceImpl(dateTimeService);
+        Mockito.when(requestValidator.validate(Mockito.any())).thenReturn(List.of());
+        service = new TravelCalculatePremiumServiceImpl(dateTimeService, requestValidator);
     }
 
     @Test
@@ -40,6 +45,7 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
         assertEquals("Sergey", response.getPersonFirstName());
+        assertFalse(response.hasErrors());
     }
 
     @Test

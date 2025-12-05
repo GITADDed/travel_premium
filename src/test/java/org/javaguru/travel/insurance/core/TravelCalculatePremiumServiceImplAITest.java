@@ -1,7 +1,7 @@
 package org.javaguru.travel.insurance.core;
 
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,12 +17,15 @@ public class TravelCalculatePremiumServiceImplAITest {
 
     private TravelCalculatePremiumServiceImpl service;
     private DateTimeService dateTimeService;
+    private TravelCalculatePremiumRequestValidator requestValidator;
 
     @BeforeEach
     void setUp() {
         dateTimeService = Mockito.mock(DateTimeService.class);
+        requestValidator = Mockito.mock(TravelCalculatePremiumRequestValidator.class);
         Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
-        service = new TravelCalculatePremiumServiceImpl(dateTimeService);
+        Mockito.when(requestValidator.validate(Mockito.any())).thenReturn(List.of());
+        service = new TravelCalculatePremiumServiceImpl(dateTimeService, requestValidator);
     }
 
     @Test
