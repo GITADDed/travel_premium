@@ -176,7 +176,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
     }
 
     @Test
-    @DisplayName("should return list of errors with correct names and incorrect agreementDateFrom")
+    @DisplayName("should return list of errors with correct names and null agreementDateFrom")
     public void testValidateWithFirstAndLastNameAndNullAgreementDateFrom() {
         Date from = null;
         Date to = new Date(1700003600000L);
@@ -193,7 +193,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
     }
 
     @Test
-    @DisplayName("should return list of errors with null last and first name in request")
+    @DisplayName("should return list of errors with null last and first name and null agreement date from in request")
     public void testValidateWithNullFirstAndLastNameAndAgreementDateFrom() {
         Date from = null;
         Date to = new Date(1700003600000L);
@@ -214,7 +214,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
     }
 
     @Test
-    @DisplayName("should return list of errors with correct names and incorrect agreementDateFrom")
+    @DisplayName("should return list of errors with correct names and null agreementDateTo")
     public void testValidateWithFirstAndLastNameAndAgreementDateFromAndNullAgreementDateTo() {
         Date from = new Date(1700000000000L);
         Date to = null;
@@ -231,7 +231,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
     }
 
     @Test
-    @DisplayName("should return list of errors with null last and first name in request")
+    @DisplayName("should return list of errors with null last and first name, and agreement from and agreement to in request")
     public void testValidateWithNullFirstAndLastNameAndAgreementDateFromAndAgreementDateTo() {
         Date from = null;
         Date to = null;
@@ -251,6 +251,44 @@ public class TravelCalculatePremiumRequestValidatorTest {
         assertEquals("Must not be empty!", errors.get(1).getMessage());
         assertEquals("Must not be empty!", errors.get(2).getMessage());
         assertEquals("Must not be empty!", errors.get(3).getMessage());
+    }
+
+    @Test
+    @DisplayName("should return list of errors with correct names and present dates in incorrect order in request")
+    public void testValidateWithFirstAndLastNameAndPresentDatesInIncorrectOrder() {
+        Date from = new Date(1700000000000L);
+        Date to = new Date(1700003600000L);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
+        request.setPersonFirstName("Ivan");
+        request.setPersonLastName("Ivanov");
+        request.setAgreementDateFrom(to);
+        request.setAgreementDateTo(from);
+        List<ValidationError> errors = validator.validate(request);
+
+        assertEquals(1, errors.size());
+        assertEquals("agreementDateFrom", errors.getFirst().getField());
+        assertEquals("Must be earlier than agreement date to!", errors.getFirst().getMessage());
+    }
+
+    @Test
+    @DisplayName("should return list of errors with null last and first name, and present agreement from and agreement to in incorrect order in request")
+    public void testValidateWithNullFirstAndLastNameAndPresentAgreementDateFromAndAgreementDateToInIncorrectOrder() {
+        Date from = new Date(1700000000000L);
+        Date to = new Date(1700003600000L);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
+        request.setPersonFirstName(null);
+        request.setPersonLastName(null);
+        request.setAgreementDateFrom(to);
+        request.setAgreementDateTo(from);
+        List<ValidationError> errors = validator.validate(request);
+
+        assertEquals(3, errors.size());
+        assertEquals("personFirstName", errors.get(0).getField());
+        assertEquals("personLastName", errors.get(1).getField());
+        assertEquals("agreementDateFrom", errors.get(2).getField());
+        assertEquals("Must not be empty!", errors.get(0).getMessage());
+        assertEquals("Must not be empty!", errors.get(1).getMessage());
+        assertEquals("Must be earlier than agreement date to!", errors.get(2).getMessage());
     }
 
 }

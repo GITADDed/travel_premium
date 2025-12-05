@@ -26,10 +26,6 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
             return new TravelCalculatePremiumResponse(errors);
         }
 
-        if (request.getAgreementDateFrom() == null || request.getAgreementDateTo() == null) {
-            throw new IllegalArgumentException("Agreement dates must not be null");
-        }
-
         BigDecimal price = dateTimeService.calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
 
         return new TravelCalculatePremiumResponse(request.getPersonFirstName(), request.getPersonLastName(), request.getAgreementDateFrom(), request.getAgreementDateTo(), price);

@@ -17,6 +17,7 @@ class TravelCalculatePremiumRequestValidator {
         validatePersonLastName(request).ifPresent(errors::add);
         validateAgreementDateFrom(request).ifPresent(errors::add);
         validateAgreementDateTo(request).ifPresent(errors::add);
+        validateAgreementDateFromEarlieDateTo(request).ifPresent(errors::add);
         return errors;
     }
 
@@ -43,6 +44,13 @@ class TravelCalculatePremiumRequestValidator {
                 ? Optional.of(new ValidationError("agreementDateTo", "Must not be empty!"))
                 : Optional.empty();
     }
+
+    private Optional<ValidationError> validateAgreementDateFromEarlieDateTo(TravelCalculatePremiumRequest request) {
+        return ( request.getAgreementDateFrom() != null && request.getAgreementDateTo() != null && (request.getAgreementDateFrom().equals(request.getAgreementDateTo()) || request.getAgreementDateFrom().after(request.getAgreementDateTo())))
+                ? Optional.of(new ValidationError("agreementDateFrom", "Must be earlier than agreement date to!"))
+                : Optional.empty();
+    }
+
 
 
 }

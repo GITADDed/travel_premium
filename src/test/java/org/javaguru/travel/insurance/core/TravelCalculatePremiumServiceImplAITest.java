@@ -101,36 +101,4 @@ public class TravelCalculatePremiumServiceImplAITest {
         assertDoesNotThrow(() -> service.calculatePremium(request));
     }
 
-    @Test
-    @DisplayName("Throws IllegalArgumentException when agreement start date is null")
-    void testCalculatePremium_nullAgreementDateFrom() {
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(null);
-        request.setAgreementDateTo(new Date());
-        assertThrows(IllegalArgumentException.class, () -> service.calculatePremium(request));
-    }
-
-    @Test
-    @DisplayName("Throws IllegalArgumentException when agreement end date is null")
-    void testCalculatePremium_nullAgreementDateTo() {
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(new Date());
-        request.setAgreementDateTo(null);
-        assertThrows(IllegalArgumentException.class, () -> service.calculatePremium(request));
-    }
-
-    @Test
-    @DisplayName("Throws IllegalArgumentException when both agreement dates are null")
-    void testCalculatePremium_agreementPriceNullDates() {
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(null);
-        request.setAgreementDateTo(null);
-        assertThrows(IllegalArgumentException.class, () -> service.calculatePremium(request));
-    }
 }

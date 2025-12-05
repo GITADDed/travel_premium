@@ -58,6 +58,7 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
         assertEquals("Makarov", response.getPersonLastName());
+        assertFalse(response.hasErrors());
     }
 
     @Test
@@ -70,6 +71,7 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
         assertEquals(response.getAgreementDateFrom(), dateFrom);
+        assertFalse(response.hasErrors());
     }
 
     @Test
@@ -82,6 +84,7 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
         assertEquals(response.getAgreementDateTo(), dateTo);
+        assertFalse(response.hasErrors());
     }
 
 }
