@@ -21,13 +21,16 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
 
         List<ValidationError> errors = requestValidator.validate(request);
-
-        if (!errors.isEmpty()) {
-            return new TravelCalculatePremiumResponse(errors);
-        }
-
         BigDecimal price = dateTimeService.calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
 
+        return errors.isEmpty() ? buildSuccessResponse(request, price) : buildErrorResponse(errors);
+    }
+
+    private TravelCalculatePremiumResponse buildErrorResponse(List<ValidationError> errors) {
+        return new TravelCalculatePremiumResponse(errors);
+    }
+
+    private TravelCalculatePremiumResponse buildSuccessResponse(TravelCalculatePremiumRequest request, BigDecimal price) {
         return new TravelCalculatePremiumResponse(request.getPersonFirstName(), request.getPersonLastName(), request.getAgreementDateFrom(), request.getAgreementDateTo(), price);
     }
 
