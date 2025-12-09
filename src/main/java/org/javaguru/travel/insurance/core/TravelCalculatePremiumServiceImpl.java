@@ -14,16 +14,15 @@ import java.util.List;
 @Component
 class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
-    private final DateTimeService dateTimeService;
     private final TravelCalculatePremiumRequestValidator requestValidator;
+    private final TravelPremiumUnderwriting premiumUnderwriting;
 
     @Override
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
 
         List<ValidationError> errors = requestValidator.validate(request);
-        BigDecimal price = dateTimeService.calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
 
-        return errors.isEmpty() ? buildSuccessResponse(request, price) : buildErrorResponse(errors);
+        return errors.isEmpty() ? buildSuccessResponse(request, premiumUnderwriting.calculatePremium(request)) : buildErrorResponse(errors);
     }
 
     private TravelCalculatePremiumResponse buildErrorResponse(List<ValidationError> errors) {

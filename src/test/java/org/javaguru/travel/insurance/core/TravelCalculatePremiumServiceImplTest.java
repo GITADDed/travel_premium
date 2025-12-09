@@ -23,16 +23,16 @@ class TravelCalculatePremiumServiceImplTest {
     private final String timeToStr = "2025-10-20T00:00:00";
     private final ZoneId zoneId = ZoneId.systemDefault();
 
-    private DateTimeService dateTimeService;
+    private TravelPremiumUnderwriting premiumUnderwriting;
     private TravelCalculatePremiumRequestValidator requestValidator;
 
     @BeforeEach
     public void setUp() {
-        dateTimeService = Mockito.mock(DateTimeService.class);
+        premiumUnderwriting = Mockito.mock(TravelPremiumUnderwriting.class);
         requestValidator = Mockito.mock(TravelCalculatePremiumRequestValidator.class);
-        Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(premiumUnderwriting.calculatePremium(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(requestValidator.validate(Mockito.any())).thenReturn(List.of());
-        service = new TravelCalculatePremiumServiceImpl(dateTimeService, requestValidator);
+        service = new TravelCalculatePremiumServiceImpl(requestValidator, premiumUnderwriting);
     }
 
     @Test
