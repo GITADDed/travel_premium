@@ -245,6 +245,7 @@
 
 ~~~ json
 {
+  "errors" : null,
   "personFirstName" : "Vasya",
   "personLastName" : "Pupkin",
   "agreementDateFrom" : "2021-05-25",

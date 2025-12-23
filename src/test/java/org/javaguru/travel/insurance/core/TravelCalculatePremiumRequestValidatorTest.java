@@ -267,7 +267,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
 
         assertEquals(1, errors.size());
         assertEquals("agreementDateFrom", errors.getFirst().getField());
-        assertEquals("Must be earlier than agreement date to!", errors.getFirst().getMessage());
+        assertEquals("Must be earlier than agreementDateTo!", errors.getFirst().getMessage());
     }
 
     @Test
@@ -288,7 +288,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
         assertEquals("agreementDateFrom", errors.get(2).getField());
         assertEquals("Must not be empty!", errors.get(0).getMessage());
         assertEquals("Must not be empty!", errors.get(1).getMessage());
-        assertEquals("Must be earlier than agreement date to!", errors.get(2).getMessage());
+        assertEquals("Must be earlier than agreementDateTo!", errors.get(2).getMessage());
     }
 
 }
