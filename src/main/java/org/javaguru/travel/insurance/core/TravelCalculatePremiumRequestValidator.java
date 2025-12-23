@@ -47,7 +47,7 @@ class TravelCalculatePremiumRequestValidator {
 
     private Optional<ValidationError> validateAgreementDateFromEarlieDateTo(TravelCalculatePremiumRequest request) {
         return ( request.getAgreementDateFrom() != null && request.getAgreementDateTo() != null && (request.getAgreementDateFrom().equals(request.getAgreementDateTo()) || request.getAgreementDateFrom().after(request.getAgreementDateTo())))
-                ? Optional.of(new ValidationError("agreementDateFrom", "Must be earlier than agreement date to!"))
+                ? Optional.of(new ValidationError("agreementDateFrom", "Must be earlier than agreementDateTo!"))
                 : Optional.empty();
     }
 
