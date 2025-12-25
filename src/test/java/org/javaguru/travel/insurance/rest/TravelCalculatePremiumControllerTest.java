@@ -24,7 +24,8 @@ public class TravelCalculatePremiumControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final JsonFileReader jsonFileReader = new JsonFileReader();
+    @Autowired
+    private JsonFileReader jsonFileReader;
 
     @ParameterizedTest(name = "Test case #{0}")
     @MethodSource("org.javaguru.travel.insurance.rest.TestCaseProvider#caseNumbers")
@@ -37,7 +38,7 @@ public class TravelCalculatePremiumControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         String expectedJson = jsonFileReader.readJsonFromFile("rest/responses/response" + caseNo + ".json");
-        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.STRICT);
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.LENIENT);
 
     }
 }

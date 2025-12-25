@@ -2,6 +2,8 @@ package org.javaguru.travel.insurance.core;
 
 import org.javaguru.travel.insurance.dto.*;
 import org.junit.jupiter.api.*;
+import validations.NegativeTestValidation;
+import validations.PositiveTestValidation;
 
 import java.util.*;
 
@@ -10,285 +12,39 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TravelCalculatePremiumRequestValidatorTest {
 
     private TravelCalculatePremiumRequestValidator validator;
-
-    @BeforeEach
-    void setUp() {
-        validator = new TravelCalculatePremiumRequestValidator();
-    }
+    private final TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
 
     @Test
-    @DisplayName("should return empty list of errors with correct request")
+    @DisplayName("should return empty list without errors")
     public void testValidate() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
+        validator = new TravelCalculatePremiumRequestValidator(List.of(new PositiveTestValidation(), new PositiveTestValidation(), new PositiveTestValidation()));
+
         List<ValidationError> errors = validator.validate(request);
 
         assertTrue(errors.isEmpty());
     }
 
-    @Test
-    @DisplayName("should return list of errors with null first name in request")
-    public void testValidateWithNullFirstName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName(null);
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(1, errors.size());
-        assertEquals("personFirstName", errors.getFirst().getField());
-        assertEquals("Must not be empty!", errors.getFirst().getMessage());
-    }
 
     @Test
-    @DisplayName("should return list of errors with empty first name in request")
-    public void testValidateWithEmptyFirstName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
+    @DisplayName("should return list of errors if input is incorrect all")
+    public void testValidateWithAllIncorrectInValidation() {
+        validator = new TravelCalculatePremiumRequestValidator(List.of(new NegativeTestValidation("ER1"), new NegativeTestValidation("ER2")));
 
-        assertEquals(1, errors.size());
-        assertEquals("personFirstName", errors.getFirst().getField());
-        assertEquals("Must not be empty!", errors.getFirst().getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with empty last name in request")
-    public void testValidateWithEmptyLastName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(1, errors.size());
-        assertEquals("personLastName", errors.getFirst().getField());
-        assertEquals("Must not be empty!", errors.getFirst().getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with null last name in request")
-    public void testValidateWithNullLastName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName(null);
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(1, errors.size());
-        assertEquals("personLastName", errors.getFirst().getField());
-        assertEquals("Must not be empty!", errors.getFirst().getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with empty last and first name in request")
-    public void testValidateWithEmptyFirstAndLastName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("");
-        request.setPersonLastName("");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
         List<ValidationError> errors = validator.validate(request);
 
         assertEquals(2, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
+        assertEquals(Set.of("ER1", "ER2"), Set.of(errors.get(0).getField(), errors.get(1).getField()));
     }
 
     @Test
-    @DisplayName("should return list of errors with empty last and null first name in request")
-    public void testValidateWithNullFirstAndEmptyLastName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName(null);
-        request.setPersonLastName("");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
+    @DisplayName("should return list of errors if there are correct fields and incorrect fields")
+    public void testValidateWithCorrectAndIncorrectValidation() {
+        validator = new TravelCalculatePremiumRequestValidator(List.of(new PositiveTestValidation(), new NegativeTestValidation("ER1"), new PositiveTestValidation(), new NegativeTestValidation("ER2")));
+
         List<ValidationError> errors = validator.validate(request);
 
         assertEquals(2, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with null last and empty first name in request")
-    public void testValidateWithEmptyFirstAndNullLastName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("");
-        request.setPersonLastName(null);
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(2, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with null last and first name in request")
-    public void testValidateWithNullFirstAndLastName() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName(null);
-        request.setPersonLastName(null);
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(2, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with correct names and null agreementDateFrom")
-    public void testValidateWithFirstAndLastNameAndNullAgreementDateFrom() {
-        Date from = null;
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(1, errors.size());
-        assertEquals("agreementDateFrom", errors.getFirst().getField());
-        assertEquals("Must not be empty!", errors.getFirst().getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with null last and first name and null agreement date from in request")
-    public void testValidateWithNullFirstAndLastNameAndAgreementDateFrom() {
-        Date from = null;
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName(null);
-        request.setPersonLastName(null);
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(3, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("agreementDateFrom", errors.get(2).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
-        assertEquals("Must not be empty!", errors.get(2).getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with correct names and null agreementDateTo")
-    public void testValidateWithFirstAndLastNameAndAgreementDateFromAndNullAgreementDateTo() {
-        Date from = new Date(1700000000000L);
-        Date to = null;
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(1, errors.size());
-        assertEquals("agreementDateTo", errors.getFirst().getField());
-        assertEquals("Must not be empty!", errors.getFirst().getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with null last and first name, and agreement from and agreement to in request")
-    public void testValidateWithNullFirstAndLastNameAndAgreementDateFromAndAgreementDateTo() {
-        Date from = null;
-        Date to = null;
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName(null);
-        request.setPersonLastName(null);
-        request.setAgreementDateFrom(from);
-        request.setAgreementDateTo(to);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(4, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("agreementDateFrom", errors.get(2).getField());
-        assertEquals("agreementDateTo", errors.get(3).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
-        assertEquals("Must not be empty!", errors.get(2).getMessage());
-        assertEquals("Must not be empty!", errors.get(3).getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with correct names and present dates in incorrect order in request")
-    public void testValidateWithFirstAndLastNameAndPresentDatesInIncorrectOrder() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName("Ivan");
-        request.setPersonLastName("Ivanov");
-        request.setAgreementDateFrom(to);
-        request.setAgreementDateTo(from);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(1, errors.size());
-        assertEquals("agreementDateFrom", errors.getFirst().getField());
-        assertEquals("Must be earlier than agreementDateTo!", errors.getFirst().getMessage());
-    }
-
-    @Test
-    @DisplayName("should return list of errors with null last and first name, and present agreement from and agreement to in incorrect order in request")
-    public void testValidateWithNullFirstAndLastNameAndPresentAgreementDateFromAndAgreementDateToInIncorrectOrder() {
-        Date from = new Date(1700000000000L);
-        Date to = new Date(1700003600000L);
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
-        request.setPersonFirstName(null);
-        request.setPersonLastName(null);
-        request.setAgreementDateFrom(to);
-        request.setAgreementDateTo(from);
-        List<ValidationError> errors = validator.validate(request);
-
-        assertEquals(3, errors.size());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("personLastName", errors.get(1).getField());
-        assertEquals("agreementDateFrom", errors.get(2).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
-        assertEquals("Must not be empty!", errors.get(1).getMessage());
-        assertEquals("Must be earlier than agreementDateTo!", errors.get(2).getMessage());
+        assertEquals(Set.of("ER1", "ER2"), Set.of(errors.get(0).getField(), errors.get(1).getField()));
     }
 
 }

@@ -1,12 +1,15 @@
 package org.javaguru.travel.insurance.rest;
 
+import org.springframework.stereotype.Component;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 
-public class JsonFileReader {
+@Component
+public final class JsonFileReader {
 
     public String readJsonFromFile(String filePath) {
         String result;
