@@ -1,9 +1,7 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.validations;
 
 import org.javaguru.travel.insurance.dto.*;
 import org.junit.jupiter.api.*;
-import validations.NegativeTestValidation;
-import validations.PositiveTestValidation;
 
 import java.util.*;
 

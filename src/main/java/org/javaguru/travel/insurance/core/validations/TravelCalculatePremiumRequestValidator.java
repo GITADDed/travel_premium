@@ -1,7 +1,6 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.validations;
 
 import lombok.RequiredArgsConstructor;
-import org.javaguru.travel.insurance.core.validations.RequestValidator;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.stereotype.Component;
@@ -12,9 +11,9 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-class TravelCalculatePremiumRequestValidator {
+class TravelCalculatePremiumRequestValidator implements RequestValidator {
 
-    private final List<RequestValidator> requestValidators;
+    private final List<RequestValidation> requestValidators;
 
     public List<ValidationError> validate(TravelCalculatePremiumRequest request) {
 

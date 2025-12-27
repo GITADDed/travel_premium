@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Component
-class AgreementDateFromLaterNowValidation implements RequestValidator {
+class AgreementDateFromLaterNowValidation implements RequestValidation {
     @Override
     public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         Date now = new Date();

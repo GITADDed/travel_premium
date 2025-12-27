@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-class AgreementDateFromEarlieToValidation implements RequestValidator {
+class AgreementDateFromEarlieToValidation implements RequestValidation {
     @Override
     public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return ( request.getAgreementDateFrom() != null && request.getAgreementDateTo() != null && (request.getAgreementDateFrom().equals(request.getAgreementDateTo()) || request.getAgreementDateFrom().after(request.getAgreementDateTo())))

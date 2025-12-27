@@ -2,6 +2,7 @@ package org.javaguru.travel.insurance.core;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.javaguru.travel.insurance.core.validations.RequestValidator;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.javaguru.travel.insurance.dto.ValidationError;
@@ -14,7 +15,7 @@ import java.util.List;
 @Component
 class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
-    private final TravelCalculatePremiumRequestValidator requestValidator;
+    private final RequestValidator requestValidator;
     private final TravelPremiumUnderwriting premiumUnderwriting;
 
     @Override
