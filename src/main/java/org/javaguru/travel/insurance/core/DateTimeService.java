@@ -19,10 +19,6 @@ public class DateTimeService {
         LocalDate from = convertToLocalDate(fromD);
         LocalDate to = convertToLocalDate(toD);
 
-        BigDecimal result = BigDecimal.valueOf(ChronoUnit.DAYS.between(from, to));
-        if (result.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("The 'to' date must be after the 'from'");
-        }
-        return result;
+        return BigDecimal.valueOf(ChronoUnit.DAYS.between(from, to));
     }
 }

@@ -9,15 +9,15 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AgreementDateFromEarlieToValidationTest extends ValidatorBasedTestClass {
+class AgreementDateFromEarlierToValidationTest extends ValidatorBasedTestClass {
 
-    AgreementDateFromEarlieToValidation validator;
+    AgreementDateFromEarlierToValidation validator;
 
     @Override
     @BeforeEach
     void setUp() {
         super.setUp();
-        validator = new AgreementDateFromEarlieToValidation();
+        validator = new AgreementDateFromEarlierToValidation();
     }
 
     @Test

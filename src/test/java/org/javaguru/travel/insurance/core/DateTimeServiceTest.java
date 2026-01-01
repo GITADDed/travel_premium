@@ -28,15 +28,6 @@ public class DateTimeServiceTest {
     }
 
     @Test
-    @DisplayName("should throw exception if 'to' date is before 'from' date")
-    void shouldThrowExceptionIfToDateIsBeforeFromDate() {
-        Date from = new Date(1700086400000L);
-        Date to = new Date(1700000000000L);
-
-        assertThrows(IllegalArgumentException.class, () -> dateTimeService.calculateDaysBetween(from, to));
-    }
-
-    @Test
     @DisplayName("should return zero if both dates are the same")
     void shouldReturnZeroIfBothDatesAreTheSame() {
         Date date = new Date(1700000000000L);
