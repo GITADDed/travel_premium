@@ -1,5 +1,6 @@
 package org.javaguru.travel.insurance.core;
 
+import com.google.common.base.Stopwatch;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.javaguru.travel.insurance.core.validations.RequestValidator;
@@ -24,7 +25,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
 
     @Override
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
-        long start = System.nanoTime();
+        Stopwatch sw = Stopwatch.createStarted();
 
         try {
 
@@ -58,7 +59,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
 
             return buildSuccessResponse(request, price);
         } finally {
-            long ms = (System.nanoTime() - start) / 1_000_000;
+            long ms = sw.elapsed().toMillis();
             log.info("calculatePremium finished in {} ms", ms);
 
             if (ms > SLOW_THRESHOLD_MS)

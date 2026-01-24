@@ -1,5 +1,6 @@
 package org.javaguru.travel.insurance.logging;
 
+import com.google.common.base.Stopwatch;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        long start = System.nanoTime();
+        Stopwatch sw = Stopwatch.createStarted();
 
         // Корреляционный id (чтобы связать все логи одного запроса)
         String requestId = request.getHeader("X-Request-Id");
@@ -39,7 +40,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } finally {
-            long ms = (System.nanoTime() - start) / 1_000_000;
+            long ms = sw.elapsed().toMillis();
 
             String method = request.getMethod();
             String uri = request.getRequestURI();
