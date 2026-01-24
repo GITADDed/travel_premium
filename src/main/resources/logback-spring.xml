@@ -29,6 +29,33 @@
         </rollingPolicy>
     </appender>
 
+    <appender name="FILE_REQUEST_RESPONSE_APPENDER"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/request-response-logger.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/request-response-logger-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.javaguru.travel.insurance.logging.TravelCalculatePremiumRequestLogger" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_REQUEST_RESPONSE_APPENDER"/>
+    </logger>
+
+    <logger name="org.javaguru.travel.insurance.logging.TravelCalculatePremiumResponseLogger" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_REQUEST_RESPONSE_APPENDER"/>
+    </logger>
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE_APPENDER"/>
