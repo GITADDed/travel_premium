@@ -1,0 +1,82 @@
+1. Необходима структура, в которой будут хранится коэффициеты для разных параметров.
+Решение: База Данных. В первом приближении выбор идёт на H2
+
+2. Должна быть возможность в будущем добавлять новые риски для рассчёта стоимости страхового полиса.
+Решение: Создать интерфейс рисков. Который потом будет в сервисе рассчёта стоимости полиса внедрятся как лист, чтобы
+Spring внедрял сразу все классы рисков.
+
+3. Чтобы общаться с базой данных для получения коэфффциентов необходимо создать слой Data Access Object. То есть создать
+класс имплементриующий Repository.
+
+UPD:
+Этап 1. База + миграции
+    Runtime: MySQL
+    Tests: H2
+    Выбрать Flyway
+    Миграции:
+        - таблица classifier (или classifiers + classifier_values)
+        - значения RISK_TYPE, COUNTRY
+        - country_default_day_premium
+        - age_coefficient (диапазоны)
+        - insurance_limit_coefficient (диапазоны)
+
+Этап 2. DTO / API контракт
+    Добавить поля:
+        - selectedRisks: List<RiskType>
+        - country
+        - age
+        - insuranceLimit
+        - даты поездки уже есть → используем для DayCount
+
+    Продумать формат country:
+        - лучше ISO-код (LV, ES) или enum Country
+
+Этап 3. Валидация
+    Bean Validation (аннотации):
+        - selectedRisks not empty
+        - insuranceLimit positive
+        - age positive (или min 0)
+
+    Кастомная валидация:
+        - selectedRisks ∈ classifier RISK_TYPE
+        - если selectedRisks содержит MEDICAL: country обязателен, age обязателен, insuranceLimit обязателен
+        - country ∈ classifier COUNTRY
+
+Этап 4. Доступ к данным
+    Репозитории для:
+        - classifier lookup
+        - day premium by country
+        - age coefficient by age (по диапазону)
+        - limit coefficient by limit (по диапазону)
+Важно: продумать поиск по диапазонам (SQL WHERE from <= value AND value <= to, и как хранить “open-ended” верхнюю границу).
+
+Этап 5. Архитектура рисков
+    Интерфейс калькулятора риска:
+        - RiskPremiumCalculator { RiskType type(); BigDecimal calculate(ctx); }
+    Сервис:
+        - проходится по selectedRisks
+        - находит калькулятор по type
+        - суммирует
+        Поведение если калькулятора нет:
+        - ошибка “risk not supported yet”
+
+Этап 6. Реализация MEDICAL
+    DayCount (Считать крайнюю дату поездки включительно)
+    Получить:
+    - CountryDefaultDayPremium по стране
+    - AgeCoefficient по возрасту
+    - InsuranceLimitCoefficient по лимиту
+    - Посчитать premium (BigDecimal):
+        - Округлить в конце до 2 знаков
+
+Что делать, если не найден коэффициент/тариф?
+Для прод-реальности обычно это ошибка конфигурации → 500 или бизнес-ошибка “Tariff not found”. В учебном проекте стоит сделать валидационную ошибку (400) с понятным текстом: “No tariff configured for country=ES”.
+
+Этап 7. Покртытие тестами
+    Покрыть:
+    - happy path (известная страна + возраст + лимит)
+    - выбран MEDICAL, но нет country/age/limit → ошибка
+    - неизвестный risk type / неразрешённый risk type → ошибка
+    - неизвестная страна → ошибка
+    - границы диапазонов age/limit (пограничные значения)
+    - dayCount 1 день и несколько дней
