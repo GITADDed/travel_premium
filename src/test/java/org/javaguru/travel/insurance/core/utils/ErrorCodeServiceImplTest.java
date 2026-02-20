@@ -6,7 +6,6 @@ class ErrorCodeServiceImplTest {
 
     @Test
     void test() {
-
     }
 
 }
