@@ -6,7 +6,6 @@ class ErrorCodeUtilImplTest {
 
     @Test
     void test() {
-
     }
 
 }
