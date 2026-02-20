@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

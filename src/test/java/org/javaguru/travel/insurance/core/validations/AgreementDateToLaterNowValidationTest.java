@@ -1,7 +1,7 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.core.ErrorCodeService;
-import org.javaguru.travel.insurance.core.ValidationErrorFactory;
+import org.javaguru.travel.insurance.core.utils.ErrorCodeService;
+import org.javaguru.travel.insurance.core.utils.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

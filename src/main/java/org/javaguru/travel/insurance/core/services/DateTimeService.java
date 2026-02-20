@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.services;
 
 import org.springframework.stereotype.Component;
 

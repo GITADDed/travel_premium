@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.javaguru.travel.insurance.dto.ValidationError;

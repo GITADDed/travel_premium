@@ -2,7 +2,7 @@ package org.javaguru.travel.insurance.core.validations;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.javaguru.travel.insurance.core.ErrorCodeService;
+import org.javaguru.travel.insurance.core.utils.ErrorCodeService;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.slf4j.Logger;
