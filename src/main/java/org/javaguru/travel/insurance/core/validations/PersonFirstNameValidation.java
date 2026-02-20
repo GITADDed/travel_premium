@@ -1,5 +1,7 @@
 package org.javaguru.travel.insurance.core.validations;
 
+import lombok.Getter;
+import org.javaguru.travel.insurance.core.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.slf4j.Logger;
@@ -9,18 +11,20 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-class PersonFirstNameValidation implements RequestValidation {
+class PersonFirstNameValidation extends AbstractRequestValidation {
     private static final Logger log = LoggerFactory.getLogger(PersonFirstNameValidation.class);
+
+    @Getter
+    private final String code = "ERROR_CODE_1";
+
+    public PersonFirstNameValidation(ValidationErrorFactory validationErrorFactory) {
+        super(validationErrorFactory);
+    }
 
     @Override
     public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
-        boolean invalid = request.getPersonFirstName() == null || request.getPersonFirstName().isEmpty();
+        boolean invalid = request.personFirstName() == null || request.personFirstName().isBlank();
 
-        if (invalid) {
-            log.debug("Validation failed: field=personFirstName, reason=blank");
-            return Optional.of(new ValidationError("personFirstName", "Must not be empty!"));
-        }
-
-        return Optional.empty();
+        return super.getErrorOrEmpty(invalid, code, log, request.personFirstName());
     }
 }

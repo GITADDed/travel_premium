@@ -30,10 +30,11 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         try {
 
             log.info("Premium calculation started");
+            log.info("Request details: selected_risks={}", request.selectedRisks());
 
             if (log.isDebugEnabled()) {
                 log.debug("Request details: agreementDateFrom={}, agreementDateTo={}",
-                        request.getAgreementDateFrom(), request.getAgreementDateTo());
+                        request.agreementDateFrom(), request.agreementDateTo());
             }
 
             List<ValidationError> errors = requestValidator.validate(request);
@@ -43,7 +44,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
 
                 if (log.isDebugEnabled()) {
                     errors.forEach(e ->
-                            log.debug("Validation error: field={}, message={}", e.getField(), e.getMessage()));
+                            log.debug("Validation error: field={}, message={}", e.getErrorCode(), e.getDescription()));
                 }
 
                 return buildErrorResponse(errors);
@@ -73,7 +74,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     }
 
     private TravelCalculatePremiumResponse buildSuccessResponse(TravelCalculatePremiumRequest request, BigDecimal price) {
-        return new TravelCalculatePremiumResponse(request.getPersonFirstName(), request.getPersonLastName(), request.getAgreementDateFrom(), request.getAgreementDateTo(), price);
+        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(), request.agreementDateFrom(), request.agreementDateTo(), price);
     }
 
 }

@@ -1,5 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
+import org.javaguru.travel.insurance.core.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.slf4j.Logger;
@@ -9,18 +10,19 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-class AgreementDateFromValidation implements RequestValidation {
+class AgreementDateFromValidation extends AbstractRequestValidation {
     private static final Logger log = LoggerFactory.getLogger(AgreementDateFromValidation.class);
+
+    private final String code = "ERROR_CODE_3";
+
+    public AgreementDateFromValidation(ValidationErrorFactory validationErrorFactory) {
+        super(validationErrorFactory);
+    }
 
     @Override
     public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
-        boolean invalid = request.getAgreementDateFrom() == null;
+        boolean invalid = request.agreementDateFrom() == null;
 
-        if (invalid) {
-            log.debug("Validation failed: field=agreementDateFrom, reason=null");
-            return Optional.of(new ValidationError("agreementDateFrom", "Must not be empty!"));
-        }
-
-        return Optional.empty();
+        return super.getErrorOrEmpty(invalid, code, log, request.agreementDateFrom());
     }
 }

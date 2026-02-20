@@ -22,11 +22,12 @@ class TravelCalculatePremiumRequestValidator implements RequestValidator {
         log.info("Validate TravelCalculatePremiumRequest started");
 
         if (log.isDebugEnabled()) {
-            log.debug("Validation input: agreementDateFrom={}, agreementDateTo={}, firstNamePresent={}, lastNamePresent={}",
-                    request.getAgreementDateFrom(),
-                    request.getAgreementDateTo(),
-                    request.getPersonFirstName() != null && !request.getPersonFirstName().isBlank(),
-                    request.getPersonLastName() != null && !request.getPersonLastName().isBlank());
+            log.debug("Validation input: agreementDateFrom={}, agreementDateTo={}, firstNamePresent={}," +
+                            "lastNamePresent={}",
+                    request.agreementDateFrom(),
+                    request.agreementDateTo(),
+                    request.personFirstName() != null && !request.personFirstName().isBlank(),
+                    request.personLastName() != null && !request.personLastName().isBlank());
         }
 
         List<ValidationError> errors = requestValidators.stream()
@@ -37,7 +38,8 @@ class TravelCalculatePremiumRequestValidator implements RequestValidator {
         log.info("Validation finished: errors count : {}", errors.size());
 
         if (log.isDebugEnabled() && !errors.isEmpty()) {
-            errors.forEach(e -> log.debug("Validation error: field={}, message={}", e.getField(), e.getMessage()));
+            errors.forEach(e -> log.debug("Validation error: field={}, message={}",
+                    e.getErrorCode(), e.getDescription()));
         }
 
         return errors;

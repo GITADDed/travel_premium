@@ -32,7 +32,7 @@ public class TravelPremiumUnderwritingTest {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
 
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, null);
 
         BigDecimal answer = premiumUnderwriting.calculatePremium(request);
 

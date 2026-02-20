@@ -13,6 +13,6 @@ class TravelPremiumUnderwriting {
     private final DateTimeService dateTimeService;
 
     public BigDecimal calculatePremium(TravelCalculatePremiumRequest request) {
-        return dateTimeService.calculateDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
+        return dateTimeService.calculateDaysBetween(request.agreementDateFrom(), request.agreementDateTo());
     }
 }

@@ -1,21 +1,23 @@
 package org.javaguru.travel.insurance.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
+import java.util.Set;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class TravelCalculatePremiumRequest {
+public record TravelCalculatePremiumRequest(
+        String personFirstName,
+        String personLastName,
+        Date agreementDateFrom,
+        Date agreementDateTo,
 
-    private String personFirstName;
-    private String personLastName;
-    private Date agreementDateFrom;
-    private Date agreementDateTo;
-
+        @NotNull
+        @NotEmpty
+        @JsonProperty("selected_risks")
+        Set<@NotBlank String> selectedRisks) {
 }
+
+

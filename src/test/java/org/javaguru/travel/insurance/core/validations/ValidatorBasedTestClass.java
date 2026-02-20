@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import testdto.TravelCalculatePremiumRequestTestDTO;
 
 import java.util.Date;
 
@@ -9,14 +9,14 @@ abstract class ValidatorBasedTestClass {
     Date to;
     String firstName;
     String lastName;
-    TravelCalculatePremiumRequest request;
+    TravelCalculatePremiumRequestTestDTO request;
 
     void setUp() {
         firstName = "Ivan";
         lastName = "Ivanov";
         from = new Date(1900000000000L);
         to = new Date(1900003600000L);
-        request = new TravelCalculatePremiumRequest(firstName, lastName, from, to);
+        request = new TravelCalculatePremiumRequestTestDTO(firstName, lastName, from, to, null);
     }
 
 }

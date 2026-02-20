@@ -15,10 +15,18 @@ public final class TestCaseProvider {
 
     }
 
-    public static Stream<Integer> caseNumbers() {
+    public static Stream<Integer> okCaseNumbers() {
+        return caseNumbers("ok");
+    }
+
+    public static Stream<Integer> badRequestCaseNumbers() {
+        return caseNumbers("bad_request");
+    }
+
+    public static Stream<Integer> caseNumbers(String caseList) {
         try {
             var resolver = new PathMatchingResourcePatternResolver();
-            Resource[] resources = resolver.getResources("classpath*:rest/requests/request*.json");
+            Resource[] resources = resolver.getResources("classpath*:rest/" + caseList + "/requests/request*.json");
 
             return Arrays.stream(resources)
                     .map(TestCaseProvider::extractCaseNumber)

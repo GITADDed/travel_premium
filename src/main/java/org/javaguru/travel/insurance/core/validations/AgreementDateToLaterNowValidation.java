@@ -1,5 +1,7 @@
 package org.javaguru.travel.insurance.core.validations;
 
+import lombok.Getter;
+import org.javaguru.travel.insurance.core.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.slf4j.Logger;
@@ -10,24 +12,26 @@ import java.util.Date;
 import java.util.Optional;
 
 @Component
-class AgreementDateToLaterNowValidation implements RequestValidation {
+class AgreementDateToLaterNowValidation extends AbstractRequestValidation {
     private static final Logger log = LoggerFactory.getLogger(AgreementDateToLaterNowValidation.class);
+
+    @Getter
+    private final String code = "ERROR_CODE_8";
+
+    public AgreementDateToLaterNowValidation(ValidationErrorFactory validationErrorFactory) {
+        super(validationErrorFactory);
+    }
 
     @Override
     public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         Date now = new Date();
 
-        if (request.getAgreementDateTo() == null) {
+        if (request.agreementDateTo() == null) {
             return Optional.empty();
         }
 
-        boolean invalid = request.getAgreementDateTo().before(now);
+        boolean invalid = request.agreementDateTo().before(now);
 
-        if (invalid) {
-            log.debug("Validation failed: field=agreementDateTo, reason=before now {}", now);
-            return Optional.of(new ValidationError("agreementDateTo", "Must be later than now!"));
-        }
-
-        return Optional.empty();
+        return super.getErrorOrEmpty(invalid, code, log, request.agreementDateTo());
     }
 }

@@ -27,18 +27,33 @@ public class TravelCalculatePremiumControllerTest {
     @Autowired
     private JsonFileReader jsonFileReader;
 
-    @ParameterizedTest(name = "Test case #{0}")
-    @MethodSource("org.javaguru.travel.insurance.rest.TestCaseProvider#caseNumbers")
+    @ParameterizedTest(name = "Test for 200 ok response case #{0}")
+    @MethodSource("org.javaguru.travel.insurance.rest.TestCaseProvider#okCaseNumbers")
     public void shouldReturnExpectedResponseTest(int caseNo) throws Exception {
-        String requestJson = jsonFileReader.readJsonFromFile("rest/requests/request" + caseNo + ".json");
+        String requestJson = jsonFileReader.readJsonFromFile("rest/ok/requests/request" + caseNo + ".json");
         String actualJson = mockMvc.perform(post("/insurance/travel/")
                         .content(requestJson)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        String expectedJson = jsonFileReader.readJsonFromFile("rest/responses/response" + caseNo + ".json");
+        String expectedJson = jsonFileReader.readJsonFromFile("rest/ok/responses/response" + caseNo + ".json");
         JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.LENIENT);
 
+    }
+
+    @ParameterizedTest(name = "Test for 400 bad_request response case #{0}")
+    @MethodSource("org.javaguru.travel.insurance.rest.TestCaseProvider#badRequestCaseNumbers")
+    void shouldReturnBadRequestWhen(int caseNo) throws Exception {
+        String requestJson = jsonFileReader.readJsonFromFile("rest/bad_request/requests/request" + caseNo + ".json");
+
+        String actualJson = mockMvc.perform(post("/insurance/travel/")
+                        .content(requestJson)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        String expectedJson = jsonFileReader.readJsonFromFile("rest/bad_request/responses/response" + caseNo + ".json");
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.LENIENT);
     }
 }
