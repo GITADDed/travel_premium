@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class ValidationErrorFactory {
-    private final ErrorCodeService errorCodeService;
+    private final ErrorCodeUtil errorCodeUtil;
 
     public ValidationError buildError(String errorCode) {
-        return new ValidationError(errorCode, errorCodeService.getMessage(errorCode));
+        return new ValidationError(errorCode, errorCodeUtil.getMessage(errorCode));
     }
 
 }

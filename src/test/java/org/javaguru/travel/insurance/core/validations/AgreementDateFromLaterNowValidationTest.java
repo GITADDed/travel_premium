@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.core.utils.ErrorCodeService;
+import org.javaguru.travel.insurance.core.utils.ErrorCodeUtil;
 import org.javaguru.travel.insurance.core.utils.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ class AgreementDateFromLaterNowValidationTest extends ValidatorBasedTestClass {
     AgreementDateFromLaterNowValidation validator;
 
     @Mock
-    private ErrorCodeService errorCodeService;
+    private ErrorCodeUtil errorCodeUtil;
 
     @InjectMocks
     private ValidationErrorFactory validationErrorFactory;
@@ -41,7 +41,7 @@ class AgreementDateFromLaterNowValidationTest extends ValidatorBasedTestClass {
     @Test
     @DisplayName("should return list of error with agreement date from in past")
     public void testValidateWithAgreementDateFromInPast() {
-        Mockito.when(errorCodeService.getMessage(Mockito.anyString())).thenReturn(description);
+        Mockito.when(errorCodeUtil.getMessage(Mockito.anyString())).thenReturn(description);
 
         Date fromInPast = new Date(0);
 

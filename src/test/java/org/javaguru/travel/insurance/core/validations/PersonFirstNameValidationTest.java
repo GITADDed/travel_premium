@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.core.utils.ErrorCodeService;
+import org.javaguru.travel.insurance.core.utils.ErrorCodeUtil;
 import org.javaguru.travel.insurance.core.utils.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ class PersonFirstNameValidationTest extends ValidatorBasedTestClass {
     private PersonFirstNameValidation validator;
 
     @Mock
-    private ErrorCodeService errorCodeService;
+    private ErrorCodeUtil errorCodeUtil;
 
     @InjectMocks
     private ValidationErrorFactory validationErrorFactory;
@@ -39,7 +39,7 @@ class PersonFirstNameValidationTest extends ValidatorBasedTestClass {
     @Test
     @DisplayName("should return error with null first name in request")
     public void testValidateWithNullFirstName() {
-        Mockito.when(errorCodeService.getMessage(Mockito.anyString())).thenReturn(description);
+        Mockito.when(errorCodeUtil.getMessage(Mockito.anyString())).thenReturn(description);
 
         request.setPersonFirstName(null);
         Optional<ValidationError> error = validator.validate(request.toDto());
@@ -52,7 +52,7 @@ class PersonFirstNameValidationTest extends ValidatorBasedTestClass {
     @Test
     @DisplayName("should return error with empty string first name in request")
     public void testValidateWithEmptyFirstName() {
-        Mockito.when(errorCodeService.getMessage(Mockito.anyString())).thenReturn(description);
+        Mockito.when(errorCodeUtil.getMessage(Mockito.anyString())).thenReturn(description);
 
         request.setPersonFirstName("");
         Optional<ValidationError> error = validator.validate(request.toDto());

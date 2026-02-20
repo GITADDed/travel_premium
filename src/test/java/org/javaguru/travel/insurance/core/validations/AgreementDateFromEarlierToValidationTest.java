@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.core.utils.ErrorCodeService;
+import org.javaguru.travel.insurance.core.utils.ErrorCodeUtil;
 import org.javaguru.travel.insurance.core.utils.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ class AgreementDateFromEarlierToValidationTest extends ValidatorBasedTestClass {
     AgreementDateFromEarlierToValidation validator;
 
     @Mock
-    private ErrorCodeService errorCodeService;
+    private ErrorCodeUtil errorCodeUtil;
 
     @InjectMocks
     private ValidationErrorFactory errorFactory;
@@ -40,7 +40,7 @@ class AgreementDateFromEarlierToValidationTest extends ValidatorBasedTestClass {
     @Test
     @DisplayName("should return error with dates in incorrect order")
     public void testValidateWithDatesInIncorrectOrder() {
-        Mockito.when(errorCodeService.getMessage(Mockito.anyString())).thenReturn(description);
+        Mockito.when(errorCodeUtil.getMessage(Mockito.anyString())).thenReturn(description);
 
         request.setAgreementDateFrom(to);
         request.setAgreementDateTo(from);

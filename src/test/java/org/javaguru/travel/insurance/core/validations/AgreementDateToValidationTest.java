@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.core.utils.ErrorCodeService;
+import org.javaguru.travel.insurance.core.utils.ErrorCodeUtil;
 import org.javaguru.travel.insurance.core.utils.ValidationErrorFactory;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ class AgreementDateToValidationTest extends ValidatorBasedTestClass {
     AgreementDateToValidation validator;
 
     @Mock
-    private ErrorCodeService errorCodeService;
+    private ErrorCodeUtil errorCodeUtil;
 
     @InjectMocks
     private ValidationErrorFactory validationErrorFactory;
@@ -40,7 +40,7 @@ class AgreementDateToValidationTest extends ValidatorBasedTestClass {
     @Test
     @DisplayName("should return error with null agreementDateTo")
     public void testValidateWithNullAgreementDateTo() {
-        Mockito.when(errorCodeService.getMessage(Mockito.anyString())).thenReturn(description);
+        Mockito.when(errorCodeUtil.getMessage(Mockito.anyString())).thenReturn(description);
 
         request.setAgreementDateTo(null);
 

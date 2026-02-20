@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class ErrorCodeServiceImpl implements ErrorCodeService {
+public class ErrorCodeUtilImpl implements ErrorCodeUtil {
 
     private final Environment env;
 

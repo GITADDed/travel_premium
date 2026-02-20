@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.underwriting;
 
-import org.javaguru.travel.insurance.core.services.DateTimeService;
+import org.javaguru.travel.insurance.core.utils.DateTimeService;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
