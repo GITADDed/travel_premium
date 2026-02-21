@@ -24,7 +24,7 @@ public class TravelPremiumUnderwritingTest {
     public void setUp() {
         DateTimeService dateTimeService = Mockito.mock(DateTimeService.class);
         Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
-        premiumUnderwriting = new TravelPremiumUnderwriting(dateTimeService);
+        premiumUnderwriting = new TravelPremiumUnderwritingImpl(dateTimeService);
     }
 
     @Test
