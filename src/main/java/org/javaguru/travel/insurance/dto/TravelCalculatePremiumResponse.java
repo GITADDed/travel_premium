@@ -24,6 +24,8 @@ public class TravelCalculatePremiumResponse extends CoreResponse {
 
     private Date agreementDateTo;
 
+    private String country;
+
     @JsonProperty("agreementPremium")
     private BigDecimal agreementPrice;
 

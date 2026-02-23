@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -43,7 +44,7 @@ class TravelCalculatePremiumServiceImplTest {
     public void shouldReturnFirstNameWhenValidRequest() {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, null);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"), "JAPAN");
 
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
@@ -56,7 +57,7 @@ class TravelCalculatePremiumServiceImplTest {
     public void shouldReturnLastNameWhenValidRequest() {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, null);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"), "JAPAN");
 
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
@@ -69,7 +70,7 @@ class TravelCalculatePremiumServiceImplTest {
     public void shouldReturnAgreementDateFromWhenValidRequest() {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, null);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"), "JAPAN");
 
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 
@@ -82,7 +83,7 @@ class TravelCalculatePremiumServiceImplTest {
     public void shouldReturnAgreementDateToWhenValidRequest() {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, null);
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"), "JAPAN");
 
         TravelCalculatePremiumResponse response = service.calculatePremium(request);
 

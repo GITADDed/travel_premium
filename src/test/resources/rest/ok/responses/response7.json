@@ -4,5 +4,6 @@
   "personLastName" : "Pupkin",
   "agreementDateFrom" : "2028-05-25",
   "agreementDateTo" : "2028-05-29",
-  "agreementPremium" : 4
+  "country": "JAPAN",
+  "agreementPremium" : 14.00
 }

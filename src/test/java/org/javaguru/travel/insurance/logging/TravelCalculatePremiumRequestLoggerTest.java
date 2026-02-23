@@ -25,7 +25,7 @@ class TravelCalculatePremiumRequestLoggerTest {
     @BeforeEach
     void setUp() {
         logger = new TravelCalculatePremiumRequestLogger(mapper);
-        request = new TravelCalculatePremiumRequest("Vasja", "Pupkin", from, to, null);
+        request = new TravelCalculatePremiumRequest("Vasja", "Pupkin", from, to, null, null);
     }
 
     @Test

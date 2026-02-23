@@ -1,9 +1,16 @@
 package org.javaguru.travel.insurance.core.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "classifiers_value")
 public class ClassifierValue {
@@ -26,4 +33,7 @@ public class ClassifierValue {
 
     @Column(name = "description", nullable = false, length = 500)
     private String description;
+
+    @OneToMany(mappedBy = "classifierValue")
+    private List<CountryDefaultDayRate> countryDefaultDayRates = new ArrayList<>();
 }

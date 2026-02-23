@@ -27,7 +27,18 @@ abstract class AbstractRequestValidation implements RequestValidation {
         if (invalid) {
             ValidationError validationError = validationErrorFactory.buildError(code);
 
-            log.debug("Validation failed: code={}, reason={}, field_value={}", code, validationError.getDescription(), safe(fieldValue));
+            log.debug("Validation failed: code={}, reason={}, field_value={}", code, validationError.description(), safe(fieldValue));
+            return Optional.of(validationError);
+        }
+
+        return Optional.empty();
+    }
+
+    protected final Optional<ValidationError> getErrorOrEmptyWithUpdatedMessage(boolean invalid, String code, Logger log, Object fieldValue, String message) {
+        if (invalid) {
+            ValidationError validationError = validationErrorFactory.buildErrorWithMessage(code, message);
+
+            log.debug("Validation failed: code={}, reason={}, field_value={}", code, validationError.description(), safe(fieldValue));
             return Optional.of(validationError);
         }
 
@@ -37,7 +48,7 @@ abstract class AbstractRequestValidation implements RequestValidation {
     protected final ValidationError getErrorWithMessage(String code, Logger log, String message) {
         ValidationError validationError = validationErrorFactory.buildErrorWithMessage(code, message);
 
-        log.debug("Validation failed: code={}, reason={}", code, validationError.getDescription());
+        log.debug("Validation failed: code={}, reason={}", code, validationError.description());
 
         return validationError;
     }

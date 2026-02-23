@@ -25,7 +25,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     private final TravelPremiumUnderwriting premiumUnderwriting;
 
     @Override
-    public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
+    public TravelCalculatePremiumResponse  calculatePremium(TravelCalculatePremiumRequest request) {
         Stopwatch sw = Stopwatch.createStarted();
 
         try {
@@ -42,11 +42,6 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
 
             if (!errors.isEmpty()) {
                 log.info("Premium calculation rejected by validation: errorsCount={}", errors.size());
-
-                if (log.isDebugEnabled()) {
-                    errors.forEach(e ->
-                            log.debug("Validation error: field={}, message={}", e.getErrorCode(), e.getDescription()));
-                }
 
                 return buildErrorResponse(errors);
             }
@@ -75,7 +70,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     }
 
     private TravelCalculatePremiumResponse buildSuccessResponse(TravelCalculatePremiumRequest request, SummaryRisks risks) {
-        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(), request.agreementDateFrom(), request.agreementDateTo(), risks.premium(), risks.risks());
+        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(), request.agreementDateFrom(), request.agreementDateTo(), request.country(), risks.premium(), risks.risks());
     }
 
 }

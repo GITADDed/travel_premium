@@ -3,5 +3,6 @@
   "personLastName" : "Pupkin",
   "agreementDateFrom" : "2028-05-25",
   "agreementDateTo" : "2028-05-29",
+  "country" : "JAPAN",
   "selected_risks":["TRAVEL_MEDICAL"]
 }

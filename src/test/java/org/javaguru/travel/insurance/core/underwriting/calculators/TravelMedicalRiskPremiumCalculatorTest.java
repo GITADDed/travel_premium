@@ -1,5 +1,7 @@
-package org.javaguru.travel.insurance.core.underwriting;
+package org.javaguru.travel.insurance.core.underwriting.calculators;
 
+import org.javaguru.travel.insurance.core.domain.CountryDefaultDayRate;
+import org.javaguru.travel.insurance.core.repository.CountryDefaultDayRateRepository;
 import org.javaguru.travel.insurance.core.utils.DateTimeService;
 import org.javaguru.travel.insurance.dto.Risk;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
@@ -14,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +30,9 @@ class TravelMedicalRiskPremiumCalculatorTest {
     @Mock
     DateTimeService dateTimeService;
 
+    @Mock
+    CountryDefaultDayRateRepository countryDefaultDayRatesRepository;
+
     @InjectMocks
     TravelMedicalRiskPremiumCalculator calculator;
 
@@ -35,14 +41,15 @@ class TravelMedicalRiskPremiumCalculatorTest {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
         TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("", "",
-                dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"));
+                dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"), "JAPAN");
 
         Mockito.when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(countryDefaultDayRatesRepository.findByCountry(Mockito.any())).thenReturn(Optional.of(new CountryDefaultDayRate(new BigDecimal("3.50"))));
 
         Risk risk = calculator.calculatePremium(request);
 
         assertEquals("TRAVEL_MEDICAL", risk.riskIc());
-        assertEquals(BigDecimal.ONE, risk.premium());
+        assertEquals(new BigDecimal("3.50"), risk.premium());
     }
 
     @Test
@@ -50,7 +57,7 @@ class TravelMedicalRiskPremiumCalculatorTest {
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
         TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("", "",
-                dateFrom, dateTo, Set.of(""));
+                dateFrom, dateTo, Set.of(""), "JAPAN");
 
         Risk risk = calculator.calculatePremium(request);
 

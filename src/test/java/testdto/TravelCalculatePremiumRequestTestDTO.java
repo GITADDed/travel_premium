@@ -19,11 +19,12 @@ public class TravelCalculatePremiumRequestTestDTO {
     private String personLastName;
     private Date agreementDateFrom;
     private Date agreementDateTo;
+    private String country;
 
     @JsonProperty("selected_risks")
     private Set<String> selectedRisks;
 
     public TravelCalculatePremiumRequest toDto() {
-        return new TravelCalculatePremiumRequest(personFirstName, personLastName, agreementDateFrom, agreementDateTo, selectedRisks);
+        return new TravelCalculatePremiumRequest(personFirstName, personLastName, agreementDateFrom, agreementDateTo, selectedRisks, country);
     }
 }

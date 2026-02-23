@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.underwriting;
 
-import org.javaguru.travel.insurance.core.utils.DateTimeService;
+import org.javaguru.travel.insurance.dto.Risk;
 import org.javaguru.travel.insurance.dto.SummaryRisks;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,10 +28,7 @@ public class TravelPremiumUnderwritingTest {
     private final ZoneId zoneId = ZoneId.systemDefault();
 
     @Mock
-    private DateTimeService dateTimeService;
-
-    @InjectMocks
-    TravelMedicalRiskPremiumCalculator travelMedicalRiskPremiumCalculator;
+    TravelRiskPremiumCalculator travelMedicalRiskPremiumCalculator;
 
     private TravelPremiumUnderwriting premiumUnderwriting;
 
@@ -45,12 +41,12 @@ public class TravelPremiumUnderwritingTest {
     @Test
     @DisplayName("should return value")
     void testCalculatePremium() {
-        when(dateTimeService.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
+        when(travelMedicalRiskPremiumCalculator.calculatePremium(Mockito.any())).thenReturn(new Risk("TRAVEL_MEDICAL", BigDecimal.ONE));
 
         Date dateFrom = Date.from(LocalDateTime.parse(timeFromStr).atZone(zoneId).toInstant());
         Date dateTo = Date.from(LocalDateTime.parse(timeToStr).atZone(zoneId).toInstant());
 
-        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"));
+        TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest("Sergey", "Makarov", dateFrom, dateTo, Set.of("TRAVEL_MEDICAL"), "JAPAN");
 
         SummaryRisks answer = premiumUnderwriting.calculatePremium(request);
 

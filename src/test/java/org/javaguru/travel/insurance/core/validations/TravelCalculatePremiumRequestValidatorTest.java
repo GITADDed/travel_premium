@@ -12,7 +12,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
     private TravelCalculatePremiumRequestValidator validator;
     private final TravelCalculatePremiumRequest request =
             new TravelCalculatePremiumRequest(null, null,
-                    null, null, null);
+                    null, null, null, null);
 
     @Test
     @DisplayName("should return empty list without errors")
@@ -35,7 +35,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
         List<ValidationError> errors = validator.validate(request);
 
         assertEquals(2, errors.size());
-        assertEquals(Set.of("ER1", "ER2"), Set.of(errors.get(0).getErrorCode(), errors.get(1).getErrorCode()));
+        assertEquals(Set.of("ER1", "ER2"), Set.of(errors.get(0).errorCode(), errors.get(1).errorCode()));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
         List<ValidationError> errors = validator.validate(request);
 
         assertEquals(2, errors.size());
-        assertEquals(Set.of("ER1", "ER2"), Set.of(errors.get(0).getErrorCode(), errors.get(1).getErrorCode()));
+        assertEquals(Set.of("ER1", "ER2"), Set.of(errors.get(0).errorCode(), errors.get(1).errorCode()));
     }
 
 }

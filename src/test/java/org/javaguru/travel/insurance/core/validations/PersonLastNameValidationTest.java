@@ -46,8 +46,8 @@ class PersonLastNameValidationTest extends ValidatorBasedTestClass {
         Optional<ValidationError> error = validator.validate(request.toDto());
 
         assertTrue(error.isPresent());
-        assertEquals(code, error.get().getErrorCode());
-        assertEquals(description, error.get().getDescription());
+        assertEquals(code, error.get().errorCode());
+        assertEquals(description, error.get().description());
     }
 
     @Test
@@ -60,8 +60,8 @@ class PersonLastNameValidationTest extends ValidatorBasedTestClass {
         Optional<ValidationError> error = validator.validate(request.toDto());
 
         assertTrue(error.isPresent());
-        assertEquals(code, error.get().getErrorCode());
-        assertEquals(description, error.get().getDescription());
+        assertEquals(code, error.get().errorCode());
+        assertEquals(description, error.get().description());
     }
 
     @Test

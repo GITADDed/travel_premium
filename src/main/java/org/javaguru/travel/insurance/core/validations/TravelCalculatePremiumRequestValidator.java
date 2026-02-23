@@ -42,7 +42,7 @@ class TravelCalculatePremiumRequestValidator implements RequestValidator {
 
         if (log.isDebugEnabled() && !errors.isEmpty()) {
             errors.forEach(e -> log.debug("Validation error: field={}, message={}",
-                    e.getErrorCode(), e.getDescription()));
+                    e.errorCode(), e.description()));
         }
 
         return errors;

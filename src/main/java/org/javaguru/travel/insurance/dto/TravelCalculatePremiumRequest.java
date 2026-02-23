@@ -10,9 +10,9 @@ public record TravelCalculatePremiumRequest(
         String personLastName,
         Date agreementDateFrom,
         Date agreementDateTo,
-
         @JsonProperty("selected_risks")
-        Set<String> selectedRisks) {
+        Set<String> selectedRisks,
+        String country) {
 }
 
 
