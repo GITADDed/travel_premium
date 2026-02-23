@@ -6,6 +6,7 @@ import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.slf4j.Logger;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -13,7 +14,14 @@ abstract class AbstractRequestValidation implements RequestValidation {
     private final ValidationErrorFactory validationErrorFactory;
 
     @Override
-    public abstract Optional<ValidationError> validate(TravelCalculatePremiumRequest request);
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<ValidationError> validateList(TravelCalculatePremiumRequest request) {
+        return List.of();
+    }
 
     protected final Optional<ValidationError> getErrorOrEmpty(boolean invalid, String code, Logger log, Object fieldValue) {
         if (invalid) {
@@ -24,6 +32,14 @@ abstract class AbstractRequestValidation implements RequestValidation {
         }
 
         return Optional.empty();
+    }
+
+    protected final ValidationError getErrorWithMessage(String code, Logger log, String message) {
+        ValidationError validationError = validationErrorFactory.buildErrorWithMessage(code, message);
+
+        log.debug("Validation failed: code={}, reason={}", code, validationError.getDescription());
+
+        return validationError;
     }
 
     private Object safe(Object v) {

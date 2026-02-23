@@ -7,6 +7,7 @@ import org.javaguru.travel.insurance.dto.ValidationError;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 class TravelCalculatePremiumRequestValidator implements RequestValidator {
     private static final Logger log = LoggerFactory.getLogger(TravelCalculatePremiumRequestValidator.class);
 
-    private final List<RequestValidation> requestValidators;
+    private final List<RequestValidation> requestValidations;
 
     public List<ValidationError> validate(TravelCalculatePremiumRequest request) {
         log.info("Validate TravelCalculatePremiumRequest started");
@@ -30,12 +31,14 @@ class TravelCalculatePremiumRequestValidator implements RequestValidator {
                     request.personLastName() != null && !request.personLastName().isBlank());
         }
 
-        List<ValidationError> errors = requestValidators.stream()
-                .map(v -> v.validate(request))
-                .flatMap(Optional::stream)
-                .toList();
+        List<ValidationError> errorsFromSingle = getErrorsFromSingleErrorValidation(request);
 
-        log.info("Validation finished: errors count : {}", errors.size());
+        List<ValidationError> errorsFromList = getErrorsFromListErrorValidation(request);
+
+        List<ValidationError> errors = concatList(errorsFromSingle, errorsFromList);
+
+        log.info("Validation finished: errors count single : {}, list: {}, total: {}", errorsFromSingle.size(),
+                errorsFromList.size(), errors.size());
 
         if (log.isDebugEnabled() && !errors.isEmpty()) {
             errors.forEach(e -> log.debug("Validation error: field={}, message={}",
@@ -43,5 +46,29 @@ class TravelCalculatePremiumRequestValidator implements RequestValidator {
         }
 
         return errors;
+    }
+
+    List<ValidationError> concatList(List<ValidationError> list1, List<ValidationError> list2) {
+        List<ValidationError> errors = new ArrayList<>(list1);
+        errors.addAll(list2);
+        return errors;
+    }
+
+    private List<ValidationError> getErrorsFromListErrorValidation(TravelCalculatePremiumRequest request) {
+        log.info("Validate with rules which return List of errors started");
+
+        return requestValidations.stream()
+                .map(v -> v.validateList(request))
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    private List<ValidationError> getErrorsFromSingleErrorValidation(TravelCalculatePremiumRequest request) {
+        log.info("Validate with rules which return Single errors started");
+
+        return requestValidations.stream()
+                .map(v -> v.validate(request))
+                .flatMap(Optional::stream)
+                .toList();
     }
 }

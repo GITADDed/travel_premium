@@ -2,6 +2,7 @@ package org.javaguru.travel.insurance.core.services;
 
 import org.javaguru.travel.insurance.core.underwriting.TravelPremiumUnderwriting;
 import org.javaguru.travel.insurance.core.validations.RequestValidator;
+import org.javaguru.travel.insurance.dto.SummaryRisks;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,7 @@ class TravelCalculatePremiumServiceImplTest {
     public void setUp() {
         premiumUnderwriting = Mockito.mock(TravelPremiumUnderwriting.class);
         requestValidator = Mockito.mock(RequestValidator.class);
-        Mockito.when(premiumUnderwriting.calculatePremium(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(premiumUnderwriting.calculatePremium(Mockito.any())).thenReturn(new SummaryRisks(BigDecimal.ONE, List.of()));
         Mockito.when(requestValidator.validate(Mockito.any())).thenReturn(List.of());
         service = new TravelCalculatePremiumServiceImpl(requestValidator, premiumUnderwriting);
     }

@@ -21,4 +21,14 @@ public class ErrorCodeUtilImpl implements ErrorCodeUtil {
         }
         return msg;
     }
+
+    @Override
+    public String getMessageWithUpdate(String code, String message) {
+        String msg = env.getProperty(code);
+
+        if (msg == null) {
+            throw new IllegalArgumentException("No message configured for errorCode=" + code);
+        }
+        return msg.formatted(message);
+    }
 }

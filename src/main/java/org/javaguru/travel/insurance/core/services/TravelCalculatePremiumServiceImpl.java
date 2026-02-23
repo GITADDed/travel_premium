@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.javaguru.travel.insurance.core.underwriting.TravelPremiumUnderwriting;
 import org.javaguru.travel.insurance.core.validations.RequestValidator;
+import org.javaguru.travel.insurance.dto.SummaryRisks;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.javaguru.travel.insurance.dto.ValidationError;
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -51,15 +51,15 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
                 return buildErrorResponse(errors);
             }
 
-            BigDecimal price = premiumUnderwriting.calculatePremium(request);
+            SummaryRisks risks = premiumUnderwriting.calculatePremium(request);
 
             log.info("Premium calculation finished successfully");
 
             if (log.isDebugEnabled()) {
-                log.debug("Calculated premium={}", price);
+                log.debug("Calculated premium={}", risks.premium());
             }
 
-            return buildSuccessResponse(request, price);
+            return buildSuccessResponse(request, risks);
         } finally {
             long ms = sw.elapsed().toMillis();
             log.info("calculatePremium finished in {} ms", ms);
@@ -74,8 +74,8 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         return new TravelCalculatePremiumResponse(errors);
     }
 
-    private TravelCalculatePremiumResponse buildSuccessResponse(TravelCalculatePremiumRequest request, BigDecimal price) {
-        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(), request.agreementDateFrom(), request.agreementDateTo(), price);
+    private TravelCalculatePremiumResponse buildSuccessResponse(TravelCalculatePremiumRequest request, SummaryRisks risks) {
+        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(), request.agreementDateFrom(), request.agreementDateTo(), risks.premium(), risks.risks());
     }
 
 }

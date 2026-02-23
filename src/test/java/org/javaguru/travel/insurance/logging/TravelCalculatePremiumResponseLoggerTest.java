@@ -2,14 +2,18 @@ package org.javaguru.travel.insurance.logging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.javaguru.travel.insurance.dto.Risk;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,13 +31,15 @@ class TravelCalculatePremiumResponseLoggerTest {
     @BeforeEach
     void setUp() {
         logger = new TravelCalculatePremiumResponseLogger(mapper);
-        response = new TravelCalculatePremiumResponse("Vasja", "Pupkin", from, to,  BigDecimal.ONE);
+        response = new TravelCalculatePremiumResponse("Vasja", "Pupkin", from, to, BigDecimal.ONE,
+                List.of(new Risk("TRAVEL_MEDICAL", BigDecimal.ONE)));
     }
 
     @Test
-    void shouldReturnCorrectJson() {
+    void shouldReturnCorrectJson() throws Exception {
         String json = logger.toJson(response);
-        assertThat(json).contains("\"errors\":null,\"personFirstName\":\"Vasja\",\"personLastName\":\"Pupkin\",\"agreementDateFrom\":\"2023-11-14\",\"agreementDateTo\":\"2023-11-14\",\"agreementPrice\":1");
+        String jsonExpected = mapper.writeValueAsString(response);
+        JSONAssert.assertEquals(jsonExpected, json, JSONCompareMode.LENIENT);
     }
 
     @Test

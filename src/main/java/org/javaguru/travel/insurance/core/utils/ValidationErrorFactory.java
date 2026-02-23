@@ -13,4 +13,8 @@ public class ValidationErrorFactory {
         return new ValidationError(errorCode, errorCodeUtil.getMessage(errorCode));
     }
 
+    public ValidationError buildErrorWithMessage(String errorCode, String message) {
+        return new ValidationError(errorCode, errorCodeUtil.getMessageWithUpdate(errorCode, message));
+    }
+
 }

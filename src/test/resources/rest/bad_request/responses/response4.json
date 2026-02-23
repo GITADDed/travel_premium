@@ -2,7 +2,11 @@
   "errors": [
     {
       "error_code": "ERROR_CODE_9",
-      "description": "RISK_TYPE = {}, not exist!"
+      "description": "RISK_TYPE = {HATER_RISK}, not exist!"
+    },
+    {
+      "error_code": "ERROR_CODE_9",
+      "description": "RISK_TYPE = {BAITER_RISK}, not exist!"
     }
   ],
   "personFirstName": null,

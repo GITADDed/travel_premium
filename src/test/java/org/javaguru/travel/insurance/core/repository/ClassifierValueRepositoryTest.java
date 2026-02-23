@@ -3,6 +3,8 @@ package org.javaguru.travel.insurance.core.repository;
 import org.javaguru.travel.insurance.core.domain.ClassifierValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,45 +28,10 @@ class ClassifierValueRepositoryTest {
         assertNotNull(classifierValueRepository);
     }
 
-    @Test
-    void shouldFindRiskTypeTravelMedical() {
-        String clvIc = prefixIc + "MEDICAL";
-
-        searchAndAssertValue(clRiskTitle, clvIc);
-    }
-
-    @Test
-    void shouldFindRiskTypeTravelCancellation() {
-        String clvIc = prefixIc + "CANCELLATION";
-
-        searchAndAssertValue(clRiskTitle, clvIc);
-    }
-
-    @Test
-    void shouldFindRiskTypeTravelLossBaggage() {
-        String clvIc = prefixIc + "LOSS_BAGGAGE";
-
-        searchAndAssertValue(clRiskTitle, clvIc);
-    }
-
-    @Test
-    void shouldFindRiskTypeTravelThirdPartyLiability() {
-        String clvIc = prefixIc + "THIRD_PARTY_LIABILITY";
-
-        searchAndAssertValue(clRiskTitle, clvIc);
-    }
-
-    @Test
-    void shouldFindRiskTypeTravelTravelEvacuation() {
-        String clvIc = prefixIc + "EVACUATION";
-
-        searchAndAssertValue(clRiskTitle, clvIc);
-    }
-
-    @Test
-    void shouldFindRiskTypeTravelSportActivities() {
-        String clvIc = prefixIc + "SPORT_ACTIVITIES";
-
+    @ParameterizedTest
+    @ValueSource(strings = { "TRAVEL_MEDICAL", "TRAVEL_CANCELLATION", "TRAVEL_LOSS_BAGGAGE",
+            "TRAVEL_THIRD_PARTY_LIABILITY", "TRAVEL_EVACUATION", "TRAVEL_SPORT_ACTIVITIES" })
+    void shouldFindRiskAndCheckIt(String clvIc) {
         searchAndAssertValue(clRiskTitle, clvIc);
     }
 
@@ -79,6 +46,7 @@ class ClassifierValueRepositoryTest {
 
     private void searchAndAssertValue(String clTitle, String clvIc) {
         Optional<ClassifierValue> value = classifierValueRepository.findByClassifierTitleAndIc(clTitle, clvIc);
+
         assertTrue(value.isPresent());
         assertEquals(clTitle, value.get().getClassifier().getTitle());
         assertEquals(clvIc, value.get().getIc());
