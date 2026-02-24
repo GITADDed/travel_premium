@@ -36,4 +36,8 @@ public class ClassifierValue {
 
     @OneToMany(mappedBy = "classifierValue")
     private List<CountryDefaultDayRate> countryDefaultDayRates = new ArrayList<>();
+
+    public ClassifierValue(String ic) {
+        this.ic = ic;
+    }
 }

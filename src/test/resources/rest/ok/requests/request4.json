@@ -3,5 +3,7 @@
   "personLastName" : "Pupkin",
   "agreementDateFrom" : "2028-05-25",
   "agreementDateTo" : null,
-  "selected_risks":["TRAVEL_CANCELLATION"]
+  "selected_risks":["TRAVEL_CANCELLATION"],
+  "personBirthDate": "2000-01-01",
+  "medicalRiskLimitLevel": "LEVEL_10000"
 }

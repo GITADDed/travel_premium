@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core.utils;
+package org.javaguru.travel.insurance.core.underwriting.calculators.medical;
 
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Component
-public class DateTimeService {
+class DayCount {
     private LocalDate convertToLocalDate(Date dateToConvert) {
         return LocalDate.ofInstant(dateToConvert.toInstant(),
                 ZoneId.systemDefault());

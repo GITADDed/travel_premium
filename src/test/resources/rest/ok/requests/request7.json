@@ -4,5 +4,7 @@
   "agreementDateFrom" : "2028-05-25",
   "agreementDateTo" : "2028-05-29",
   "country" : "JAPAN",
-  "selected_risks":["TRAVEL_MEDICAL"]
+  "selected_risks":["TRAVEL_MEDICAL"],
+  "personBirthDate": "2010-01-01",
+  "medicalRiskLimitLevel": "LEVEL_10000"
 }

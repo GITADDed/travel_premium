@@ -12,7 +12,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
     private TravelCalculatePremiumRequestValidator validator;
     private final TravelCalculatePremiumRequest request =
             new TravelCalculatePremiumRequest(null, null,
-                    null, null, null, null);
+                    null, null, null, null, null, null);
 
     @Test
     @DisplayName("should return empty list without errors")

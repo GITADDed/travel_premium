@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "country_default_day_rate")
 public class CountryDefaultDayRate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -24,7 +25,11 @@ public class TravelCalculatePremiumRequestTestDTO {
     @JsonProperty("selected_risks")
     private Set<String> selectedRisks;
 
+    private LocalDate personBirthDate;
+    private String medicalRiskLimitLevel;
+
     public TravelCalculatePremiumRequest toDto() {
-        return new TravelCalculatePremiumRequest(personFirstName, personLastName, agreementDateFrom, agreementDateTo, selectedRisks, country);
+        return new TravelCalculatePremiumRequest(personFirstName, personLastName,
+                agreementDateFrom, agreementDateTo, selectedRisks, country, personBirthDate, medicalRiskLimitLevel);
     }
 }

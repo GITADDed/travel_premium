@@ -1,9 +1,7 @@
-package org.javaguru.travel.insurance.core.underwriting.calculators;
+package org.javaguru.travel.insurance.core.underwriting.calculators.medical;
 
 import lombok.RequiredArgsConstructor;
-import org.javaguru.travel.insurance.core.repository.CountryDefaultDayRateRepository;
 import org.javaguru.travel.insurance.core.underwriting.TravelRiskPremiumCalculator;
-import org.javaguru.travel.insurance.core.utils.DateTimeService;
 import org.javaguru.travel.insurance.dto.Risk;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.springframework.stereotype.Component;
@@ -14,16 +12,17 @@ import java.math.RoundingMode;
 @Component
 @RequiredArgsConstructor
 class TravelMedicalRiskPremiumCalculator implements TravelRiskPremiumCalculator {
-
-    private final DateTimeService dateTimeService;
-    private final CountryDefaultDayRateRepository countryDefaultDayRatesRepository;
+    private final AgeCoefficientUtil ageCoefficientUtil;
+    private final CountryDefaultDayRateUtil countryDefaultDayRateUtil;
+    private final DayCount dayCount;
 
     @Override
     public Risk calculatePremium(TravelCalculatePremiumRequest request) {
         if (request.selectedRisks().contains(getRiskIc())) {
-            BigDecimal premium = dateTimeService
+            BigDecimal premium = dayCount
                     .calculateDaysBetween(request.agreementDateFrom(), request.agreementDateTo())
-                    .multiply(countryDefaultDayRatesRepository.findByCountry(request.country()).orElseThrow().getDayRate());
+                    .multiply(countryDefaultDayRateUtil.getDayRateByCountry(request.country()))
+                    .multiply(ageCoefficientUtil.getCoefficientByBirthDate(request.personBirthDate()));
             return new Risk(getRiskIc(), premium.setScale(2, RoundingMode.HALF_UP));
         }
         else

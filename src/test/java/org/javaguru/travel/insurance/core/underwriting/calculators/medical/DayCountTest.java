@@ -1,6 +1,5 @@
-package org.javaguru.travel.insurance.core.services;
+package org.javaguru.travel.insurance.core.underwriting.calculators.medical;
 
-import org.javaguru.travel.insurance.core.utils.DateTimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,12 +9,12 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DateTimeServiceTest {
-    private DateTimeService dateTimeService;
+public class DayCountTest {
+    private DayCount dayCount;
 
     @BeforeEach
     void setUp() {
-        dateTimeService = new DateTimeService();
+        dayCount = new DayCount();
     }
 
     @Test
@@ -23,7 +22,7 @@ public class DateTimeServiceTest {
     void shouldCalculateDaysBetweenDaysInCorrectOrder() {
         Date from = new Date(1700000000000L);
         Date to = new Date(1700086400000L);
-        BigDecimal result = dateTimeService.calculateDaysBetween(from, to);
+        BigDecimal result = dayCount.calculateDaysBetween(from, to);
 
         assertEquals(0, result.compareTo(BigDecimal.valueOf(1)));
     }
@@ -32,6 +31,6 @@ public class DateTimeServiceTest {
     @DisplayName("should return zero if both dates are the same")
     void shouldReturnZeroIfBothDatesAreTheSame() {
         Date date = new Date(1700000000000L);
-        assertEquals(0, dateTimeService.calculateDaysBetween(date, date).compareTo(BigDecimal.ZERO));
+        assertEquals(0, dayCount.calculateDaysBetween(date, date).compareTo(BigDecimal.ZERO));
     }
 }

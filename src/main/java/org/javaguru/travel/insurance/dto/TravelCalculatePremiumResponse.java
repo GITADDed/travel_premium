@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class TravelCalculatePremiumResponse extends CoreResponse {
     private BigDecimal agreementPrice;
 
     private List<Risk> risks;
+    private LocalDate personBirthDate;
+    private String medicalRiskLimitLevel;
 
     public TravelCalculatePremiumResponse(List<ValidationError> errors) {
         super(errors);

@@ -32,7 +32,7 @@ class TravelCalculatePremiumResponseLoggerTest {
     void setUp() {
         logger = new TravelCalculatePremiumResponseLogger(mapper);
         response = new TravelCalculatePremiumResponse("Vasja", "Pupkin", from, to, "JAPAN", BigDecimal.ONE,
-                List.of(new Risk("TRAVEL_MEDICAL", BigDecimal.ONE)));
+                List.of(new Risk("TRAVEL_MEDICAL", BigDecimal.ONE)), null, null);
     }
 
     @Test

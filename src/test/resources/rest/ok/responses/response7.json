@@ -5,5 +5,6 @@
   "agreementDateFrom" : "2028-05-25",
   "agreementDateTo" : "2028-05-29",
   "country": "JAPAN",
-  "agreementPremium" : 14.00
+  "agreementPremium" : 14.00,
+  "personBirthDate": "2010-01-01"
 }

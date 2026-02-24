@@ -70,7 +70,9 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     }
 
     private TravelCalculatePremiumResponse buildSuccessResponse(TravelCalculatePremiumRequest request, SummaryRisks risks) {
-        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(), request.agreementDateFrom(), request.agreementDateTo(), request.country(), risks.premium(), risks.risks());
+        return new TravelCalculatePremiumResponse(request.personFirstName(), request.personLastName(),
+                request.agreementDateFrom(), request.agreementDateTo(), request.country(),
+                risks.premium(), risks.risks(), request.personBirthDate(), request.medicalRiskLimitLevel());
     }
 
 }
