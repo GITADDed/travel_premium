@@ -55,7 +55,7 @@ class CountryExistRequestValidationTest extends ValidatorBasedTestClass {
                 Mockito.anyString())).thenReturn(Optional.of(
                         new ClassifierValue(1L,
                                 new Classifier(1L, "COUNTRY", "", null)
-                                , "JAPAN", "", null)));
+                                , "JAPAN", "", null, null)));
 
         Optional<ValidationError> error = countryExistRequestValidation.validate(request.toDto());
 

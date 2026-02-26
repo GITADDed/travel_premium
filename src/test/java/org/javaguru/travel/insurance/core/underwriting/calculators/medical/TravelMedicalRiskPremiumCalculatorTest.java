@@ -1,5 +1,7 @@
 package org.javaguru.travel.insurance.core.underwriting.calculators.medical;
 
+import org.javaguru.travel.insurance.config.AgeCoefficientFeatureProperties;
+import org.javaguru.travel.insurance.config.InsuranceLimitCoefficientFeatureProperties;
 import org.javaguru.travel.insurance.core.repository.AgeCoefficientRepository;
 import org.javaguru.travel.insurance.core.repository.CountryDefaultDayRateRepository;
 import org.javaguru.travel.insurance.dto.Risk;
@@ -47,12 +49,21 @@ class TravelMedicalRiskPremiumCalculatorTest {
     @Mock
     AgeCoefficientRepository ageCoefficientRepository;
 
+    @Mock
+    InsuranceLimitCoefficient insuranceLimitCoefficient;
+
+    @Mock
+    AgeCoefficientFeatureProperties ageCoefficientFeatureProperties;
+
+    @Mock
+    InsuranceLimitCoefficientFeatureProperties insuranceLimitCoefficientFeatureProperties;
+
     @InjectMocks
     TravelMedicalRiskPremiumCalculator calculator;
 
     @BeforeEach
     void setUp() {
-        request =  new TravelCalculatePremiumRequestTestDTO("", "", dateFrom, dateTo,  "JAPAN", Set.of(""), dateOfBirth, null);
+        request =  new TravelCalculatePremiumRequestTestDTO("", "", dateFrom, dateTo,  "JAPAN", Set.of(""), dateOfBirth, "LEVEL_10000");
     }
 
     @Test
@@ -62,6 +73,9 @@ class TravelMedicalRiskPremiumCalculatorTest {
         Mockito.when(dayCount.calculateDaysBetween(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(countryDefaultDayRate.getDayRateByCountry(Mockito.any())).thenReturn(new BigDecimal("3.50"));
         Mockito.when(ageCoefficientUtil.getCoefficientByBirthDate(Mockito.any())).thenReturn(new BigDecimal("1.00"));
+        Mockito.when(insuranceLimitCoefficient.getInsuranceLimitCoefficient(Mockito.any())).thenReturn(new BigDecimal("1.00"));
+        Mockito.when(insuranceLimitCoefficientFeatureProperties.getEnabled()).thenReturn(true);
+        Mockito.when(ageCoefficientFeatureProperties.getEnabled()).thenReturn(true);
 
         Risk risk = calculator.calculatePremium(request.toDto());
 

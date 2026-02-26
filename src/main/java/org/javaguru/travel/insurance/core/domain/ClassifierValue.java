@@ -37,6 +37,9 @@ public class ClassifierValue {
     @OneToMany(mappedBy = "classifierValue")
     private List<CountryDefaultDayRate> countryDefaultDayRates = new ArrayList<>();
 
+    @OneToMany(mappedBy = "classifierValue")
+    private List<MedicalRiskLimitLevel> medicalRiskLimitLevels = new ArrayList<>();
+
     public ClassifierValue(String ic) {
         this.ic = ic;
     }

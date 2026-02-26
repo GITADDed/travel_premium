@@ -82,22 +82,22 @@ FROM classifiers AS cl
                SELECT 'LEVEL_50000', 'Maximum payout amount 50000$') AS v
 WHERE cl.title = 'MEDICAL_RISK_LIMIT_LEVEL';
 
-INSERT INTO medical_risk_limit_level(medical_risk_limit_level_ic, coefficient)
-SELECT ic, 1.0
+INSERT INTO medical_risk_limit_level(classifier_value_id, coefficient, medical_risk_limit_level_ic)
+SELECT id, 1.0, ic
 FROM classifiers_value
 WHERE ic = 'LEVEL_10000';
 
-INSERT INTO medical_risk_limit_level(medical_risk_limit_level_ic, coefficient)
-SELECT ic, 1.2
+INSERT INTO medical_risk_limit_level(classifier_value_id, coefficient, medical_risk_limit_level_ic)
+SELECT id, 1.2, ic
 FROM classifiers_value
 WHERE ic = 'LEVEL_15000';
 
-INSERT INTO medical_risk_limit_level(medical_risk_limit_level_ic, coefficient)
-SELECT ic, 1.5
+INSERT INTO medical_risk_limit_level(classifier_value_id, coefficient, medical_risk_limit_level_ic)
+SELECT id, 1.5, ic
 FROM classifiers_value
 WHERE ic = 'LEVEL_20000';
 
-INSERT INTO medical_risk_limit_level(medical_risk_limit_level_ic, coefficient)
-SELECT ic, 2.0
+INSERT INTO medical_risk_limit_level(classifier_value_id, coefficient, medical_risk_limit_level_ic)
+SELECT id, 2.0, ic
 FROM classifiers_value
 WHERE ic = 'LEVEL_50000';
