@@ -26,4 +26,4 @@ jobs:
 
       - name: Build with Gradle changed modules only
         shell: bash
-        run: ./gradlew "module" --no-daemon --stacktrace --build-cache -I gradle/cache-retention.init.gradle
+        run: ./gradlew "module:build" --no-daemon --stacktrace --build-cache -I gradle/cache-retention.init.gradle
