@@ -24,7 +24,7 @@ public class CountryNotNullRequestValidation extends AbstractRequestValidation {
             return Optional.empty();
         }
 
-        boolean invalid = request.country() == null;
+        boolean invalid = request.country() == null || request.country().isBlank();
 
         return getErrorOrEmpty(invalid, code, log, request.country());
     }
