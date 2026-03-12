@@ -1,0 +1,5 @@
+beforeSettings { settings ->
+    settings.caches {
+        buildCache.setRemoveUnusedEntriesAfterDays(2)
+    }
+}
