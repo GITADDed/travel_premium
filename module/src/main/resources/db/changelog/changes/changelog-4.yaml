@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-age-coefficient-table
+      author: GITADDed
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_age_coefficient
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: age_from
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: age_to
+                  type: SMALLINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: coefficient
+                  type: DECIMAL(5, 2)
+            tableName: age_coefficient
+        - createIndex:
+            unique: true
+            indexName: ix_age_coefficient_age_from
+            tableName: age_coefficient
+            columns:
+              - column:
+                  name: age_from
+        - sql:
+            sql: |-
+              ALTER TABLE age_coefficient ADD CONSTRAINT chk_age_range CHECK (age_from <= age_to);

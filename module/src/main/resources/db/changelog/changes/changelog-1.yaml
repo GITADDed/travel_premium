@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-classifier-table
+      author: GITADDed
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_classifiers
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: VARCHAR(200)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(100)
+            tableName: classifiers
+        - createIndex:
+            indexName: ix_classifiers_title
+            tableName: classifiers
+            unique: true
+            columns:
+              - column:
+                  name: title

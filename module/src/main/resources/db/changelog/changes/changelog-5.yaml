@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-medical-risk-limit-level-table
+      author: GITADDed
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_medical_risk_limit_level
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: medical_risk_limit_level_ic
+                  type: VARCHAR(200)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: coefficient
+                  type: DECIMAL(5, 2)
+              - column:
+                  constraints:
+                    nullable: false
+                    references: classifiers_value(id)
+                    foreignKeyName: fk_classifiers_value
+                  name: classifier_value_id
+                  type: BIGINT
+            tableName: medical_risk_limit_level
+        - createIndex:
+            unique: true
+            indexName: ix_medical_risk_limit_level_classifier_value_id
+            tableName: medical_risk_limit_level
+            columns:
+              - column:
+                  name: classifier_value_id

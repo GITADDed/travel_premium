@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-classifiers-value-table
+      author: GITADDed
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_classifiers_value
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                    references: classifiers(id)
+                    foreignKeyName: fk_classifiers
+                  name: classifier_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ic
+                  type: VARCHAR(200)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(500)
+            tableName: classifiers_value
+        - createIndex:
+            indexName: ix_classifier_values_ic
+            tableName: classifiers_value
+            unique: true
+            columns:
+              - column:
+                  name: ic

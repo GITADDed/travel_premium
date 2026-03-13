@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-country-default-day-rate-table
+      author: GITADDed
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_country_default_day_rate
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: day_rate
+                  type: DECIMAL(5, 2)
+              - column:
+                  constraints:
+                    nullable: false
+                    references: classifiers_value(id)
+                    foreignKeyName: fk_classifier_value
+                  name: classifier_value_id
+                  type: BIGINT
+            tableName: country_default_day_rate
