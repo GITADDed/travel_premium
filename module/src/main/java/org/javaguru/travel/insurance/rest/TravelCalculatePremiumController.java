@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @RestController
-@RequestMapping("/insurance/travel")
+@RequestMapping("/insurance/travel/api")
 class TravelCalculatePremiumController {
 	private final TravelCalculatePremiumService calculatePremiumService;
 	private final TravelCalculatePremiumRequestLogger requestLogger;

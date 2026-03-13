@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 006-generate-values-for-classifiers-and-coefficients
       author: GITADDed
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - insert:
             tableName: classifiers

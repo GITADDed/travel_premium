@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 004-create-age-coefficient-table
       author: GITADDed
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - createTable:
             columns:

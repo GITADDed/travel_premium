@@ -30,7 +30,7 @@ public class TravelCalculatePremiumControllerTest {
     @MethodSource("org.javaguru.travel.insurance.rest.TestCaseProvider#okCaseNumbers")
     public void shouldReturnExpectedResponseTest(int caseNo) throws Exception {
         String requestJson = jsonFileReader.readJsonFromFile("rest/ok/requests/request" + caseNo + ".json");
-        String actualJson = mockMvc.perform(post("/insurance/travel/")
+        String actualJson = mockMvc.perform(post("/insurance/travel/api/")
                         .content(requestJson)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ public class TravelCalculatePremiumControllerTest {
     void shouldReturnBadRequestWhen(int caseNo) throws Exception {
         String requestJson = jsonFileReader.readJsonFromFile("rest/bad_request/requests/request" + caseNo + ".json");
 
-        String actualJson = mockMvc.perform(post("/insurance/travel/")
+        String actualJson = mockMvc.perform(post("/insurance/travel/api/")
                         .content(requestJson)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
